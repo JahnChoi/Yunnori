@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+//When do we change teams?
+
 public class TossSticksPanel
 {
     private JFrame frame;
@@ -11,6 +13,7 @@ public class TossSticksPanel
     private JLabel buttonText;
     private JLabel teamText;
     private int numberOfTeams;
+    private int team;
     private JLabel totalText;
     private JLabel displayTotal;
     private int total;
@@ -31,6 +34,11 @@ public class TossSticksPanel
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         //frame.add( ) <-- add panels to frame
         frame.setVisible( true );
+    }
+    
+    public int getTeam()
+    {
+        return team;
     }
     
     public int getTotal()
