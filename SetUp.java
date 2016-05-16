@@ -30,7 +30,6 @@ public class SetUp
         mainPanel = new JPanel();
         mainPanel.setLayout( new GridLayout( 3, 1 ) );
         mainPanel.add( title );
-        mainPanel.add( divide );
         mainPanel.add( numTeams );
         mainPanel.add( comboBox );
         
