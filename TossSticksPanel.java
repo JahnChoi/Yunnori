@@ -13,18 +13,21 @@ public class TossSticksPanel
     private JLabel buttonText;
     private JLabel teamText;
     private int numberOfTeams;
-    private int team;
+    private int currentTeam;
+    private String [] teamNames;
     private JLabel totalText;
     private JLabel displayTotal;
     private int total;
     
-    public TossSticksPanel( int numberOfTeams )
+    public TossSticksPanel( int numTeams )
     {
         mainPanel = new JPanel();
+        teamText = new JLabel( "A" );
         buttonText = new JLabel( "Toss" );
         totalText = new JLabel( "TOTAL: " );
         displayTotal = new JLabel( " " );
-        this.numberOfTeams = numberOfTeams;
+        numberOfTeams = numTeams;
+        setUpTeams( numberOfTeams );
         setUpButton();
         
         //set up layout
@@ -36,14 +39,37 @@ public class TossSticksPanel
         frame.setVisible( true );
     }
     
-    public int getTeam()
-    {
-        return team;
-    }
-    
     public int getTotal()
     {
         return total;
+    }
+    
+    public void nextTeam()
+    {
+        if( currentTeam + 1 == numberOfTeams )
+        {
+            currentTeam = 0;
+        }
+        else
+            currentTeam++;
+        
+        teamText.setText( teamNames[ currentTeam ] );
+    }
+    
+    public void setUpTeams( int numberOfTeams )
+    {
+        teamNames = new String[ numberOfTeams ];
+        for( int i = 0; i < numberOfTeams; i++ )
+        {
+            if( i == 0 )
+                teamNames[ i ] = "A";
+            if( i == 1 )
+                teamNames[ i ] = "B";
+            if( i == 2 )
+                teamNames[ i ] = "C";
+            if( i == 3 )
+                teamNames[ i ] = "D";
+        }
     }
     
     public void setUpButton()
@@ -61,7 +87,7 @@ public class TossSticksPanel
                 //figure out how to display sticks on panel
                 
                 total = calculateTotal( one, two, three, four );
-                
+                displayTotal.setText( total + "" );
             }
         }
     }
@@ -72,7 +98,7 @@ public class TossSticksPanel
         group[ 0 ] = a;
         group[ 1 ] = b;
         group[ 2 ] = c;
-        group[ 4 ] = d;
+        group[ 3 ] = d;
         int t = 0;
         for( int i = 0; i < 4; i++ )
         {
