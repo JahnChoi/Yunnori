@@ -10,13 +10,13 @@ public class Board
     private JLabel title, image;
     
     private String currentPath;
-    private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8;
+    private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
     private Occupant[][] masterArray;
     
     public Board()
     {
         path0 = new Occupant[ 1 ];
-        path1 = new Occupant[ 6 ];
+        path1 = new Occupant[ 5 ];
         path2 = new Occupant[ 5 ];
         path3 = new Occupant[ 4 ];
         path4 = new Occupant[ 5 ];
@@ -24,7 +24,8 @@ public class Board
         path6 = new Occupant[ 2 ];
         path7 = new Occupant[ 2 ];
         path8 = new Occupant[ 2 ];
-        masterArray = new Occupant[ 9 ][];
+        path9 = new Occupant[ 1 ];
+        masterArray = new Occupant[ 11 ][];
         masterArray[ 0 ] = path0;
         masterArray[ 1 ] = path1;
         masterArray[ 2 ] = path2;
@@ -34,6 +35,8 @@ public class Board
         masterArray[ 6 ] = path6;
         masterArray[ 7 ] = path7;
         masterArray[ 8 ] = path8;
+        masterArray[ 9 ] = path9;
+        masterArray[ 10 ] = path10;
         
         //----------------------------------------------------------------------------------------------------
         
