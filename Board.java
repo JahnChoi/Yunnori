@@ -57,20 +57,24 @@ public class Board
         frame.setVisible( true );
     }
     
-    public int getcurrentPath()
+    public int getCurrentPath( String teamName, int pieceID )
     {
-        return ;
-    }
-    
-    public int findPath( String teamName, int pieceID )
-    {
-        for( Occupant[] x : masterArray )
+        for( int a = 0; a < 9; a++ )
         {
-            for( Occupant y : x )
+            for( int b = 0; b < masterArray[ a ].length; b++ ) 
             {
-                if( y.getTeamName().equals( teamName ) && y.ge)
+                if( masterArray[ a ][ b ].getTeamName().equals( teamName ) )
+                {
+                    for( int i = 0; i < masterArray[ a ][ b ].getPieceID().size(); i++ )
+                    {
+                        if( masterArray[ a ][ b ].getPieceID().get( i ) == pieceID )
+                            return a;
+                    }
+                }
                     
             }
         }
+        
+        return 0;
     }
 }

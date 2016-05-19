@@ -30,8 +30,8 @@ public class Occupant
         numOfPieces += num;
     }
     
-    public int getpieceID()
+    public ArrayList< Integer > getPieceID()
     {
-        
+        return pieceID;
     }
 }
