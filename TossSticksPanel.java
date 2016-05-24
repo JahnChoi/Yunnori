@@ -3,14 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-//When do we change teams?
 
 public class TossSticksPanel
 {
     private JFrame frame;
     private JPanel mainPanel;
     private JButton toss;
-    private JLabel buttonText;
+    private JLabel tossText;
+    private JButton endTurn;
+    private JLabel endTurnText;
     private JLabel teamText;
     private int numberOfTeams;
     private int currentTeam;
@@ -22,18 +23,26 @@ public class TossSticksPanel
     public TossSticksPanel( int numTeams )
     {
         mainPanel = new JPanel();
-        teamText = new JLabel( "A" );
-        buttonText = new JLabel( "Toss" );
+        teamText = new JLabel( "Team A" );
+        teamText.setHorizontalAlignment( 0 );
+        tossText = new JLabel( "Toss" );
         totalText = new JLabel( "TOTAL: " );
         displayTotal = new JLabel( " " );
+        endTurnText = new JLabel( "End Turn" );
         numberOfTeams = numTeams;
         setUpTeams( numberOfTeams );
-        setUpButton();
+        setUpTossButton();
+        setUpEndTurnButton();
         
         //set up layout
+        mainPanel = new JPanel();
+        mainPanel.setLayout( new GridLayout( 5, 1 ) );
+        mainPanel.add( teamText );
+        mainPanel.add( ); //Sticks go here
+        mainPanel.add( )
         
         frame = new JFrame();
-        //set frame dimensions
+        frame.setSize( 350, 450 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         //frame.add( ) <-- add panels to frame
         frame.setVisible( true );
@@ -53,7 +62,7 @@ public class TossSticksPanel
         else
             currentTeam++;
         
-        teamText.setText( teamNames[ currentTeam ] );
+        teamText.setText( "Team " + teamNames[ currentTeam ] );
     }
     
     public void setUpTeams( int numberOfTeams )
@@ -72,10 +81,10 @@ public class TossSticksPanel
         }
     }
     
-    public void setUpButton()
+    public void setUpTossButton()
     {
         toss = new JButton( "Toss" );
-        class ButtonListener implements ActionListener
+        class TossButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
             {
@@ -88,6 +97,19 @@ public class TossSticksPanel
                 
                 total = calculateTotal( one, two, three, four );
                 displayTotal.setText( total + "" );
+            }
+        }
+    }
+    
+    public void setUpEndTurnButton()
+    {
+        endTurn = new JButton( "End Turn" );
+        class EndTurnListener implements ActionListener
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                displayTotal.setText( " " );
+                nextTeam();
             }
         }
     }
