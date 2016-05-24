@@ -55,7 +55,8 @@ public class SetUp
         {
             public void actionPerformed( ActionEvent event )
             {
-                //TossSticksPanel startGame = new TossSticksPanel( Integer.parseInt( comboBox.getSelectedItem() ) );
+                TossSticksPanel startGame = new TossSticksPanel( Integer.parseInt( comboBox.getSelectedItem().toString() ) );
+                Board board = new Board( startGame.getTeamNames() );
             }
         }
         ActionListener listener = new ButtonListener();

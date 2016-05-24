@@ -13,7 +13,11 @@ public class Board
     private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
     private Occupant[][] masterArray;
     
-    public Board()
+    private String [] teamNames;
+    
+    private int[] score;
+    
+    public Board( String [] teamList )
     {
         path0 = new Occupant[ 1 ];
         path1 = new Occupant[ 5 ];
@@ -25,7 +29,10 @@ public class Board
         path7 = new Occupant[ 2 ];
         path8 = new Occupant[ 2 ];
         path9 = new Occupant[ 1 ];
-        masterArray = new Occupant[ 11 ][];
+        
+        teamNames = teamList;
+        
+        masterArray = new Occupant[ 10 ][];
         masterArray[ 0 ] = path0;
         masterArray[ 1 ] = path1;
         masterArray[ 2 ] = path2;
@@ -36,7 +43,7 @@ public class Board
         masterArray[ 7 ] = path7;
         masterArray[ 8 ] = path8;
         masterArray[ 9 ] = path9;
-        masterArray[ 10 ] = path10;
+        
         
         //----------------------------------------------------------------------------------------------------
         
@@ -79,5 +86,33 @@ public class Board
         }
         
         return 0;
+    }
+    
+    //DO THIS
+    public void movePiece( int oldPath, int oldLocation, int newPath, int newLocation )
+    {
+        Occupant old = masterArray[ oldPath ][ oldLocation ];
+        
+        if( masterArray[ newPath ][ newLocation ] != null )
+        {
+            Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
+            
+            if( temp.getTeamName().equals( old.getTeamName() ) )
+            {
+                old.addPieces( temp.getNumOfPieces() );
+            }
+            
+            else
+            {
+                
+            }
+        }
+        else
+        {
+            masterArray[ newPath ][ newLocation ] = old;
+            masterArray[ oldPath ][ oldLocation ] = null;
+        }
+        
+  
     }
 }
