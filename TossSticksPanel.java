@@ -3,11 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-
 public class TossSticksPanel
 {
     private JFrame frame;
-    private JPanel mainPanel;
+    private JPanel mainPanel, panel1, panel2;
     private JButton toss;
     private JLabel tossText;
     private JButton endTurn;
@@ -16,41 +15,58 @@ public class TossSticksPanel
     private int numberOfTeams;
     private int currentTeam;
     private String [] teamNames;
-    private JLabel totalText;
+    private JLabel totalText, image;
     private JLabel displayTotal;
     private int total;
     
     public TossSticksPanel( int numTeams )
     {
-        mainPanel = new JPanel();
-        teamText = new JLabel( "Team A" );
+        teamText = new JLabel();
+        teamText.setText( "Team A" );
         teamText.setHorizontalAlignment( 0 );
-        tossText = new JLabel( "Toss" );
-        totalText = new JLabel( "TOTAL: " );
-        displayTotal = new JLabel( " " );
-        endTurnText = new JLabel( "End Turn" );
+        
+        setUpTossButton();
+        
+        image = new JLabel();
+        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
+        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
+        image.setHorizontalAlignment( 0 );
+        panel1 = new JPanel();
+        panel1.add( image );
+        
+        totalText = new JLabel();
+        totalText.setText( "TOTAL: " + total );
+        totalText.setHorizontalAlignment( 0 );
+        
         numberOfTeams = numTeams;
         setUpTeams( numberOfTeams );
-        setUpTossButton();
+
         setUpEndTurnButton();
         
         //set up layout
         mainPanel = new JPanel();
         mainPanel.setLayout( new GridLayout( 5, 1 ) );
         mainPanel.add( teamText );
-        mainPanel.add( ); //Sticks go here
-        mainPanel.add( )
+        mainPanel.add( toss );
+        mainPanel.add( panel1 ); //Sticks go here
+        mainPanel.add( totalText );
+        mainPanel.add( endTurn );
         
         frame = new JFrame();
         frame.setSize( 350, 450 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        //frame.add( ) <-- add panels to frame
+        frame.add( mainPanel );
         frame.setVisible( true );
     }
     
     public int getTotal()
     {
         return total;
+    }
+    
+    public String[] getTeamNames()
+    {
+        return teamNames;
     }
     
     public void nextTeam()
