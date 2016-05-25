@@ -21,8 +21,11 @@ public class TossSticksPanel
     
     public TossSticksPanel( int numTeams )
     {
+        numberOfTeams = numTeams;
+        setUpTeams( numberOfTeams );
+        
         teamText = new JLabel();
-        teamText.setText( "Team A" );
+        teamText.setText( "Team " + teamNames[ currentTeam ] );
         teamText.setHorizontalAlignment( 0 );
         
         setUpTossButton();
@@ -37,9 +40,6 @@ public class TossSticksPanel
         totalText = new JLabel();
         totalText.setText( "TOTAL: " + total );
         totalText.setHorizontalAlignment( 0 );
-        
-        numberOfTeams = numTeams;
-        setUpTeams( numberOfTeams );
 
         setUpEndTurnButton();
         
@@ -72,35 +72,53 @@ public class TossSticksPanel
     public void nextTeam()
     {
         if( currentTeam + 1 == numberOfTeams )
-        {
             currentTeam = 0;
-        }
         else
             currentTeam++;
-        
+
         teamText.setText( "Team " + teamNames[ currentTeam ] );
     }
     
     public void setUpTeams( int numberOfTeams )
     {
         teamNames = new String[ numberOfTeams ];
-        for( int i = 0; i < numberOfTeams; i++ )
+        if( numberOfTeams == 2 )
         {
-            if( i == 0 )
-                teamNames[ i ] = "A";
-            if( i == 1 )
-                teamNames[ i ] = "B";
-            if( i == 2 )
-                teamNames[ i ] = "C";
-            if( i == 3 )
-                teamNames[ i ] = "D";
+            teamNames[ 0 ] = "A";
+            teamNames[ 1 ] = "B";
         }
+        else if( numberOfTeams == 3 )
+        {
+            teamNames[ 0 ] = "A";
+            teamNames[ 1 ] = "B";
+            teamNames[ 2 ] = "C";
+        }
+        else if( numberOfTeams == 4 )
+        {
+            teamNames[ 0 ] = "A";
+            teamNames[ 1 ] = "B";
+            teamNames[ 2 ] = "C";
+            teamNames[ 3 ] = "D";
+        }
+        currentTeam = 0;
+//        teamNames = new String[ numberOfTeams - 1 ];
+//        for( int i = 0; i <= numberOfTeams; i++ )
+//        {
+//            if( i == 0 )
+//                teamNames[ i ] = "A";
+//            if( i == 1 )
+//                teamNames[ i ] = "B";
+//            if( i == 2 )
+//                teamNames[ i ] = "C";
+//            if( i == 3 )
+//                teamNames[ i ] = "D";
+//        }
     }
     
     public void setUpTossButton()
     {
         toss = new JButton( "Toss" );
-        class TossButtonListener implements ActionListener
+        class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
             {
@@ -112,22 +130,27 @@ public class TossSticksPanel
                 //figure out how to display sticks on panel
                 
                 total = calculateTotal( one, two, three, four );
-                displayTotal.setText( total + "" );
+//                displayTotal.setText( total + "" );
             }
         }
+        ActionListener listener = new ButtonListener();
+        toss.addActionListener( listener );
     }
     
     public void setUpEndTurnButton()
     {
         endTurn = new JButton( "End Turn" );
-        class EndTurnListener implements ActionListener
+        
+        class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
             {
-                displayTotal.setText( " " );
+                total = 0;
                 nextTeam();
             }
         }
+        ActionListener listener = new ButtonListener();
+        endTurn.addActionListener( listener );
     }
     
     public int calculateTotal( Stick a, Stick b, Stick c, Stick d )
