@@ -9,12 +9,12 @@ public class Board
     private JPanel mainPanel;
     private JLabel title, image;
     
-    private String currentPath;
     private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
     private Occupant[][] masterArray;
     
     private String [] teamNames;
     
+    private int[] startZone;
     private int[] score;
     
     public Board( String [] teamList )
@@ -29,6 +29,7 @@ public class Board
         path7 = new Occupant[ 2 ];
         path8 = new Occupant[ 2 ];
         path9 = new Occupant[ 1 ];
+        path10 = new Occupant[ 1 ];
         
         teamNames = teamList;
         
@@ -43,7 +44,11 @@ public class Board
         masterArray[ 7 ] = path7;
         masterArray[ 8 ] = path8;
         masterArray[ 9 ] = path9;
+        masterArray[ 10 ] = path10;
         
+        startZone = new int[ teamList.length ];
+        score = new int[ teamList.length ];
+        setUpScoreAndStartZone( teamList.length );
         
         //----------------------------------------------------------------------------------------------------
         
@@ -67,52 +72,86 @@ public class Board
         frame.setVisible( true );
     }
     
-    public int getCurrentPath( String teamName, int pieceID )
-    {
-        for( int a = 0; a < 9; a++ )
+    public void setUpScoreAndStartZone( int numTeams )
+    {     
+        for( int i = 0; i < numTeams; i++ )
         {
-            for( int b = 0; b < masterArray[ a ].length; b++ ) 
-            {
-                if( masterArray[ a ][ b ].getTeamName().equals( teamName ) )
-                {
-                    for( int i = 0; i < masterArray[ a ][ b ].getPieceID().size(); i++ )
-                    {
-                        if( masterArray[ a ][ b ].getPieceID().get( i ) == pieceID )
-                            return a;
-                    }
-                }
-                    
-            }
+            score[ i ] = 0;
+            startZone[ i ] = 4;
         }
         
-        return 0;
     }
     
-    //DO THIS
+//    public int getCurrentPath( String teamName, int pieceID )
+//    {
+//        for( int a = 0; a < 9; a++ )
+//        {
+//            for( int b = 0; b < masterArray[ a ].length; b++ ) 
+//            {
+//                if( masterArray[ a ][ b ].getTeamName().equals( teamName ) )
+//                {
+//                    for( int i = 0; i < masterArray[ a ][ b ].getPieceID().size(); i++ )
+//                    {
+//                        if( masterArray[ a ][ b ].getPieceID().get( i ) == pieceID )
+//                            return a;
+//                    }
+//                }  
+//            }
+//        }
+//        
+//        return 0;
+//    }
+    
+    public void moveFromStartZone()
+    {
+        
+    }
+    
+    //revise checking for null/nonexistant location
     public void movePiece( int oldPath, int oldLocation, int newPath, int newLocation )
     {
-        Occupant old = masterArray[ oldPath ][ oldLocation ];
-        
-        if( masterArray[ newPath ][ newLocation ] != null )
+        if( masterArray[ oldPath ][ oldLocation ] != null )
         {
-            Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
-            
-            if( temp.getTeamName().equals( old.getTeamName() ) )
+            Occupant old = masterArray[ oldPath ][ oldLocation ];
+
+            if( newPath == 10 )
             {
-                old.addPieces( temp.getNumOfPieces() );
+                int x = 0;
+                for( int i = 0; i < teamNames.length; i++ )
+                {
+                    if( old.getTeamName().equals( teamNames[ i ] ) )
+                        x = i;
+                }
+                masterArray[ 10 ][ 0 ] = null;
+                score[ x ] +=  old.getNumOfPieces();
+                if( score[ x ] == 4 )
+                {
+                    EndGame yay = new EndGame();
+                }
             }
-            
             else
             {
-                
+                if( masterArray[ newPath ][ newLocation ] != null )
+                {
+                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
+
+                    if( temp.getTeamName().equals( old.getTeamName() ) )
+                    {
+                        old.addPieces( temp.getNumOfPieces() );
+                    }
+
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    masterArray[ newPath ][ newLocation ] = old;
+                    masterArray[ oldPath ][ oldLocation ] = null;
+                }
             }
         }
-        else
-        {
-            masterArray[ newPath ][ newLocation ] = old;
-            masterArray[ oldPath ][ oldLocation ] = null;
-        }
-        
-  
+
     }
 }
