@@ -17,6 +17,8 @@ public class Board
     private int[] startZone;
     private int[] score;
     
+    
+    
     public Board( String [] teamList )
     {
         path0 = new Occupant[ 1 ];
@@ -33,7 +35,7 @@ public class Board
         
         teamNames = teamList;
         
-        masterArray = new Occupant[ 10 ][];
+        masterArray = new Occupant[ 11 ][];
         masterArray[ 0 ] = path0;
         masterArray[ 1 ] = path1;
         masterArray[ 2 ] = path2;
@@ -102,9 +104,11 @@ public class Board
 //        return 0;
 //    }
     
+    //DO THIS
     public void moveFromStartZone()
     {
-        
+        int team = getCurrentTeam();
+        //check for correct team, make sure number cant' go below 0
     }
     
     //revise checking for null/nonexistant location
@@ -142,14 +146,19 @@ public class Board
 
                     else
                     {
+                        
+                        for( int i = 0; i < teamNames.length; i++ )
+                        {
+                            if( teamNames[ i ].equals( temp.getTeamName() ))
+                                score[ i ] += temp.getNumOfPieces();
+                        }
 
                     }
                 }
-                else
-                {
-                    masterArray[ newPath ][ newLocation ] = old;
-                    masterArray[ oldPath ][ oldLocation ] = null;
-                }
+
+                masterArray[ newPath ][ newLocation ] = old;
+                masterArray[ oldPath ][ oldLocation ] = null;
+                
             }
         }
 
