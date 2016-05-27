@@ -21,7 +21,7 @@ public class TossSticksPanel
     
     public TossSticksPanel( int numTeams )
     {
-        numberOfTeams = numTeams;
+        numberOfTeams = numTeams + 1;
         setUpTeams( numberOfTeams );
         
         teamText = new JLabel();
@@ -36,6 +36,7 @@ public class TossSticksPanel
         image.setHorizontalAlignment( 0 );
         panel1 = new JPanel();
         panel1.add( image );
+        panel1.setSize( 300, 400 );
         
         totalText = new JLabel();
         totalText.setText( "TOTAL: " + total );
@@ -46,6 +47,7 @@ public class TossSticksPanel
         //set up layout
         mainPanel = new JPanel();
         mainPanel.setLayout( new GridLayout( 5, 1 ) );
+        // Borderlayout gridbaglayout
         mainPanel.add( teamText );
         mainPanel.add( toss );
         mainPanel.add( panel1 ); //Sticks go here
@@ -53,6 +55,7 @@ public class TossSticksPanel
         mainPanel.add( endTurn );
         
         frame = new JFrame();
+        frame.setTitle( "Yunnori Sticks" );
         frame.setSize( 350, 450 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.add( mainPanel );
@@ -62,6 +65,11 @@ public class TossSticksPanel
     public int getTotal()
     {
         return total;
+    }
+    
+    public int getCurrentTeam()
+    {
+        return currentTeam;
     }
     
     public String[] getTeamNames()
@@ -82,37 +90,17 @@ public class TossSticksPanel
     public void setUpTeams( int numberOfTeams )
     {
         teamNames = new String[ numberOfTeams ];
-        if( numberOfTeams == 2 )
+        for( int i = 0; i < numberOfTeams; i++ )
         {
-            teamNames[ 0 ] = "A";
-            teamNames[ 1 ] = "B";
+            if( i == 0 )
+                teamNames[ i ] = "A";
+            if( i == 1 )
+                teamNames[ i ] = "B";
+            if( i == 2 )
+                teamNames[ i ] = "C";
+            if( i == 3 )
+                teamNames[ i ] = "D";
         }
-        else if( numberOfTeams == 3 )
-        {
-            teamNames[ 0 ] = "A";
-            teamNames[ 1 ] = "B";
-            teamNames[ 2 ] = "C";
-        }
-        else if( numberOfTeams == 4 )
-        {
-            teamNames[ 0 ] = "A";
-            teamNames[ 1 ] = "B";
-            teamNames[ 2 ] = "C";
-            teamNames[ 3 ] = "D";
-        }
-        currentTeam = 0;
-//        teamNames = new String[ numberOfTeams - 1 ];
-//        for( int i = 0; i <= numberOfTeams; i++ )
-//        {
-//            if( i == 0 )
-//                teamNames[ i ] = "A";
-//            if( i == 1 )
-//                teamNames[ i ] = "B";
-//            if( i == 2 )
-//                teamNames[ i ] = "C";
-//            if( i == 3 )
-//                teamNames[ i ] = "D";
-//        }
     }
     
     public void setUpTossButton()
@@ -126,11 +114,35 @@ public class TossSticksPanel
                 Stick two = new Stick();
                 Stick three = new Stick();
                 Stick four = new Stick();
-                
-                //figure out how to display sticks on panel
-                
+
                 total = calculateTotal( one, two, three, four );
 //                displayTotal.setText( total + "" );
+                if( total == 1 )
+                {
+                    image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Do.jpg" ) ) );
+                    total = 1;
+                }
+                else if( total == 2 )
+                {
+                    image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Gae.jpg" ) ) );
+                    total = 2;
+                }
+                else if( total == 3 )
+                {
+                    image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Geol.jpg" ) ) );
+                    total = 3;
+                }
+                else if( total == 4 )
+                {
+                    image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Geol.jpg" ) ) );
+                    total = 4;
+                }
+                else if( total == 5 )
+                {
+                    image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut.jpg" ) ) );
+                    total = 5;
+                }
+                totalText.setText( "TOTAL: " + total );
             }
         }
         ActionListener listener = new ButtonListener();
@@ -146,6 +158,7 @@ public class TossSticksPanel
             public void actionPerformed( ActionEvent event )
             {
                 total = 0;
+                totalText.setText( "TOTAL: " + total );
                 nextTeam();
             }
         }
