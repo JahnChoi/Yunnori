@@ -11,7 +11,7 @@ public class EndGame
     private JLabel label;
     private JButton button;
     
-    public EndGame( String[] teamNames )
+    public EndGame()
     {
         
         frame = new JFrame();
