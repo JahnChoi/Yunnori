@@ -108,6 +108,19 @@ public class SelectionPanel
     
     public int convertToIndex( int n )
     {
-        if( n == 23 || n == 1 || n == 2 || n == 7 || n == 12 || n == 16 || n == 21 || n == 26 || n == )
+        if( n == 0 )
+            return 100;
+        if(  n == 1 || n == 2 || n == 7 || n == 12 || n == 16 || n == 21 ||n == 23 || n == 24 || n == 26 || n == 28 || n == 30 )
+            return 0;
+        if(  n == 3 || n == 8 || n == 13 || n == 17 || n == 22 || n == 25 ||n == 27 || n == 29 )
+            return 1;
+        if(  n == 4 || n == 9 || n == 14 || n == 18 )
+            return 2;
+        if(  n == 5 || n == 10 || n == 15 || n == 19 )
+            return 3;
+        if( n == 6 || n == 11 || n == 20 )
+            return 4;
+        else
+            return -1;
     }
 }
