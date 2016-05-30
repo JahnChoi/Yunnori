@@ -80,7 +80,9 @@ public class SelectionPanel
     public int convertToPath( int n )
     {
         if( n == 0 )
-            return 100;
+            return 100;        
+        else if( n == 1 )
+            return 9;
         else if( n >= 2 && n <= 6 )
             return 1;
         else if( n >= 7 && n <= 11 )
