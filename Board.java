@@ -87,7 +87,7 @@ public class Board
     {
         if( oldPath == 100 && oldLocation == 100 )
         {
-            int t = team.getSelectedIndex(); //team is the ComboBox from SelectionPanel
+            int t = team.getSelectedIndex() - 1; //team is the ComboBox from SelectionPanel
             if( startZone[ t ] > 0 )
             {
                 startZone[ t ] = startZone[ t ] - 1;
