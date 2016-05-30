@@ -16,9 +16,7 @@ public class Board
     
     private int[] startZone;
     private int[] score;
-    
-    
-    
+
     public Board( String [] teamList )
     {
         path0 = new Occupant[ 1 ];
@@ -84,37 +82,38 @@ public class Board
         
     }
     
-//    public int getCurrentPath( String teamName, int pieceID )
-//    {
-//        for( int a = 0; a < 9; a++ )
-//        {
-//            for( int b = 0; b < masterArray[ a ].length; b++ ) 
-//            {
-//                if( masterArray[ a ][ b ].getTeamName().equals( teamName ) )
-//                {
-//                    for( int i = 0; i < masterArray[ a ][ b ].getPieceID().size(); i++ )
-//                    {
-//                        if( masterArray[ a ][ b ].getPieceID().get( i ) == pieceID )
-//                            return a;
-//                    }
-//                }  
-//            }
-//        }
-//        
-//        return 0;
-//    }
-    
-    //DO THIS
-    public void moveFromStartZone()
-    {
-        int team = getCurrentTeam();
-        //check for correct team, make sure number cant' go below 0
-    }
-    
     //revise checking for null/nonexistant location
     public void movePiece( int oldPath, int oldLocation, int newPath, int newLocation )
     {
-        if( masterArray[ oldPath ][ oldLocation ] != null )
+        if( oldPath == 100 && oldLocation == 100 )
+        {
+            int t = team.getSelectedIndex(); //team is the ComboBox from SelectionPanel
+            if( startZone[ t ] > 0 )
+            {
+                startZone[ t ] = startZone[ t ] - 1;
+                Occupant newPiece = new Occupant( getCurrentTeam(), 1 ); //getCurrentTeam() is in TossSticksPanel
+                if( masterArray[ newPath ][ newLocation ] != null )
+                {
+                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
+
+                    if( temp.getTeamName().equals( getCurrentTeam() ) )
+                    {
+                        newPiece.addPieces( temp.getNumOfPieces() );
+                    }
+                    else
+                    {
+                        for( int i = 0; i < teamNames.length; i++ )
+                        {
+                            if( teamNames[ i ].equals( temp.getTeamName() ))
+                                score[ i ] += temp.getNumOfPieces();
+                        }
+                    }
+                }
+                masterArray[ newPath ][ newLocation ] = newPiece;
+            }
+        }
+        
+        if( oldPath != 100 && oldLocation != 100 && masterArray[ oldPath ][ oldLocation ] != null )
         {
             Occupant old = masterArray[ oldPath ][ oldLocation ];
 
