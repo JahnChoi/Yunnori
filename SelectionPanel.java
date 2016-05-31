@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class SelectionPanel
@@ -58,6 +60,8 @@ public class SelectionPanel
         {
             if( i == 0 )
                 list[ i ] = " ";
+            if( i == 1 )
+                list[ i ] = "START";
             else
                 list[ i ] = i - 1 + "";
         }
@@ -71,6 +75,8 @@ public class SelectionPanel
         {
             if( i == 0 )
                 list[ i ] = " ";
+            if( i == 30 )
+                list[ i ] = "END";
             else
                 list[ i ] = i + " ";
         }
@@ -87,9 +93,9 @@ public class SelectionPanel
             return 1;
         else if( n >= 7 && n <= 11 )
             return 2;
-        else if( n >=12 && n <= 15)
+        else if( n >= 12 && n <= 15)
             return 3;
-        else if( n >=16 && n <=20 )
+        else if( n >= 16 && n <= 20 )
             return 4;
         else if( n == 21 && n == 22 )
             return 5;
@@ -105,7 +111,6 @@ public class SelectionPanel
             return 10;
         else
             return -1;
- 
     }
     
     public int convertToIndex( int n )
@@ -124,5 +129,22 @@ public class SelectionPanel
             return 4;
         else
             return -1;
+    }
+    
+    public void setUpMoveButton()
+    {
+        move = new JButton( "Move" );
+        
+        class ButtonListener implements ActionListener
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                //movePiece is from the Board class
+                if( start.getSelectedIndex() != 0 && end.getSelectedIndex() != 0 )
+                    movePiece( convertToPath( start.getSelectedIndex() - 1 ), convertToIndex( start.getSelectedIndex() - 1 ), convertToPath( end.getSelectedIndex() ), convertToIndex( end.getSelectedIndex() ) );
+            }
+        }
+        ActionListener listener = new ButtonListener();
+        start.addActionListener( listener );
     }
 }
