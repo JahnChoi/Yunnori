@@ -8,6 +8,8 @@ public class GameWindow
     private JFrame mainFrame;
     private JPanel panel, panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8;
     private JLabel label, label1, label2, label3, label4, label5;
+    private JLabel image, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17;
+    private JComboBox comboBox1, comboBox2, comboBox3;
     
     
     public GameWindow( String[] teamList, int numOfTeams )
