@@ -62,8 +62,8 @@ public class GameWindow
         boardFrame.setVisible( true );
         
         // TOSS STICKS PANEL
-        numberOfTeams = numOfTeams + 1;
-        setUpTeams( numberOfTeams );
+//        numberOfTeams = numOfTeams + 1;
+//        setUpTeams( numberOfTeams );
         
         teamText = new JLabel();
         teamText.setText( "Team " + teamNames[ currentTeam ] );
@@ -190,7 +190,7 @@ public class GameWindow
                 score[ x ] +=  old.getNumOfPieces();
                 if( score[ x ] == 4 )
                 {
-                    EndGame yay = new EndGame();
+                    endGame( teamNames[ x ] );
                 }
             }
             else
@@ -265,21 +265,21 @@ public class GameWindow
         teamText.setText( "Team " + teamNames[ currentTeam ] );
     }
     
-    public void setUpTeams( int numberOfTeams )
-    {
-        teamNames = new String[ numberOfTeams ];
-        for( int i = 0; i < numberOfTeams; i++ )
-        {
-            if( i == 0 )
-                teamNames[ i ] = "A";
-            if( i == 1 )
-                teamNames[ i ] = "B";
-            if( i == 2 )
-                teamNames[ i ] = "C";
-            if( i == 3 )
-                teamNames[ i ] = "D";
-        }
-    }
+//    public void setUpTeams( int numberOfTeams )
+//    {
+//        teamNames = new String[ numberOfTeams ];
+//        for( int i = 0; i < numberOfTeams; i++ )
+//        {
+//            if( i == 0 )
+//                teamNames[ i ] = "A";
+//            if( i == 1 )
+//                teamNames[ i ] = "B";
+//            if( i == 2 )
+//                teamNames[ i ] = "C";
+//            if( i == 3 )
+//                teamNames[ i ] = "D";
+//        }
+//    }
     
     public void setUpTossButton()
     {
