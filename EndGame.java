@@ -42,7 +42,7 @@ public class EndGame
     
     public void setUpButton()
     {
-        button = new JButton( "Exit Game" );
+        button = new JButton( "<html><b><h1><font color=blue>Exit Game</font></h1></b></html>" );
         
         class ButtonListener implements ActionListener
         {
