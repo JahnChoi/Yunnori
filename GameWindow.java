@@ -1,3 +1,4 @@
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,83 +49,97 @@ public class GameWindow
         
         //---------------------------------------
         
-        title = new JLabel();
-        title.setText( "Yunnori Board" );
-        title.setHorizontalAlignment( 0 );
-        
-        boardPanel = new JPanel();
-        boardPanel.setLayout( new GridLayout( 1, 1 ) );
+        panel = new JPanel();
+        panel.setLayout( new GridLayout( 1, 1 ) );
         image = new JLabel();
-        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
         image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.jpg" ) ) );
-        boardPanel.add( image );
+        panel.add( image );
         
-        boardFrame = new JFrame();
-        boardFrame.setSize( 1000, 800 );
-        boardFrame.setTitle( "Yunnori Board" );
-        boardFrame.setLayout( new GridLayout( 1, 1 ) );
-        boardFrame.add( boardPanel );
-        boardFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        boardFrame.setVisible( true );
+        mainFrame = new JFrame();
+        mainFrame.setSize( 1250, 900 );
+        mainFrame.setTitle( "YUNNORI (Traditional Korean Board Game)" );
+        mainFrame.setLayout( new GridBagLayout() );
+        mainFrame.add( panel );
+        mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        mainFrame.setVisible( true );
         
-        // TOSS STICKS PANEL
-//        numberOfTeams = numOfTeams + 1;
-//        setUpTeams( numberOfTeams );
-        
-        teamText = new JLabel();
-        teamText.setText( "Team " + teamNames[ currentTeam ] );
-        teamText.setHorizontalAlignment( 0 );
-        
-        setUpTossButton();
-        
-        sticksImage = new JLabel();
-        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
-        sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
-        sticksImage.setHorizontalAlignment( 0 );
-        tossPanel1 = new JPanel();
-        tossPanel1.add( sticksImage );
-        tossPanel1.setSize( 300, 400 );
-        
-        totalText = new JLabel();
-        totalText.setText( "TOTAL: " + total );
-        totalText.setHorizontalAlignment( 0 );
-
-        setUpEndTurnButton();
-        
-        //set up layout
-        tossMainPanel = new JPanel();
-        tossMainPanel.setLayout( new GridLayout( 5, 1 ) );
-        // Borderlayout gridbaglayout
-//        tossMainPanel.setLayout( new GridBagLayout() );
-        tossMainPanel.add( teamText );
-        tossMainPanel.add( toss );
-        tossMainPanel.add( panel1 ); //Sticks go here
-        tossMainPanel.add( totalText );
-        tossMainPanel.add( endTurn );
-        
-        frame = new JFrame();
-        frame.setTitle( "Yunnori Sticks" );
-        frame.setSize( 350, 450 );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.add( tossMainPanel );
-        frame.setVisible( true );
-        
-        
-        // SELECTION PANEL
-        directionText = new JLabel();
-        directionText.setText( "Move piece(s) from: " );
-        toText = new JLabel();
-        toText.setText( " to " );
-        ifStartText = new JLabel();
-        ifStartText.setText( "If starting piece, select team: " );
-        
-        start = new JComboBox();
-        end = new JComboBox();
-        
-        team = new JComboBox();
-        setTeamComboBox( numOfTeams );
-        
-        setUpMoveButton();
+//        title = new JLabel();
+//        title.setText( "Yunnori Board" );
+//        title.setHorizontalAlignment( 0 );
+//        
+//        boardPanel = new JPanel();
+//        boardPanel.setLayout( new GridLayout( 1, 1 ) );
+//        image = new JLabel();
+//        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
+//        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.jpg" ) ) );
+//        boardPanel.add( image );
+//        
+//        boardFrame = new JFrame();
+//        boardFrame.setSize( 1000, 800 );
+//        boardFrame.setTitle( "Yunnori Board" );
+//        boardFrame.setLayout( new GridLayout( 1, 1 ) );
+//        boardFrame.add( boardPanel );
+//        boardFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//        boardFrame.setVisible( true );
+//        
+//        // TOSS STICKS PANEL
+////        numberOfTeams = numOfTeams + 1;
+////        setUpTeams( numberOfTeams );
+//        
+//        teamText = new JLabel();
+//        teamText.setText( "Team " + teamNames[ currentTeam ] );
+//        teamText.setHorizontalAlignment( 0 );
+//        
+//        setUpTossButton();
+//        
+//        sticksImage = new JLabel();
+//        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
+//        sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
+//        sticksImage.setHorizontalAlignment( 0 );
+//        tossPanel1 = new JPanel();
+//        tossPanel1.add( sticksImage );
+//        tossPanel1.setSize( 300, 400 );
+//        
+//        totalText = new JLabel();
+//        totalText.setText( "TOTAL: " + total );
+//        totalText.setHorizontalAlignment( 0 );
+//
+//        setUpEndTurnButton();
+//        
+//        //set up layout
+//        tossMainPanel = new JPanel();
+//        tossMainPanel.setLayout( new GridLayout( 5, 1 ) );
+//        // Borderlayout gridbaglayout
+////        tossMainPanel.setLayout( new GridBagLayout() );
+//        tossMainPanel.add( teamText );
+//        tossMainPanel.add( toss );
+//        tossMainPanel.add( panel1 ); //Sticks go here
+//        tossMainPanel.add( totalText );
+//        tossMainPanel.add( endTurn );
+//        
+//        frame = new JFrame();
+//        frame.setTitle( "Yunnori Sticks" );
+//        frame.setSize( 350, 450 );
+//        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//        frame.add( tossMainPanel );
+//        frame.setVisible( true );
+//        
+//        
+//        // SELECTION PANEL
+//        directionText = new JLabel();
+//        directionText.setText( "Move piece(s) from: " );
+//        toText = new JLabel();
+//        toText.setText( " to " );
+//        ifStartText = new JLabel();
+//        ifStartText.setText( "If starting piece, select team: " );
+//        
+//        start = new JComboBox();
+//        end = new JComboBox();
+//        
+//        team = new JComboBox();
+//        setTeamComboBox( numOfTeams );
+//        
+//        setUpMoveButton();
     }
 
 //---------------------------------------------------------------------------------------------------
@@ -132,7 +147,7 @@ public class GameWindow
     // INSERT BOARD CODE
     private JFrame boardFrame;
     private JPanel boardPanel;
-    private JLabel title, image;
+//    private JLabel title, image;
     
     private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
     private Occupant[][] masterArray;
