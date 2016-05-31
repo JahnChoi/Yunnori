@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +16,13 @@ public class EndGame
     {
         label = new JLabel();
         label.setText( "CONGRATULATIONS TEAM " + team + "!");
+        label.setFont(new Font("Serif", Font.PLAIN, 14));
         label.setHorizontalAlignment( 0 );
+//        label.setForeground(new Color(0xffffdd));
         label2 = new JLabel();
         label2.setText( "YOU WIN!!!" );
+        label2.setFont(new Font("Serif", Font.PLAIN, 14));
+//        label2.setForeground(new Color(0xffffdd));
         label2.setHorizontalAlignment( 0 );
         
         panel = new JPanel();

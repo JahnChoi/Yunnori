@@ -5,6 +5,10 @@ import javax.swing.*;
 
 public class GameWindow
 {
+    private JFrame mainFrame;
+    private JPanel panel, panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8;
+    private JLabel label, label1, label2, label3, label4, label5;
+    
     
     public GameWindow( String[] teamList, int numOfTeams )
     {
@@ -75,9 +79,9 @@ public class GameWindow
         // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
         sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
         sticksImage.setHorizontalAlignment( 0 );
-        panel1 = new JPanel();
-        panel1.add( sticksImage );
-        panel1.setSize( 300, 400 );
+        tossPanel1 = new JPanel();
+        tossPanel1.add( sticksImage );
+        tossPanel1.setSize( 300, 400 );
         
         totalText = new JLabel();
         totalText.setText( "TOTAL: " + total );
@@ -86,21 +90,21 @@ public class GameWindow
         setUpEndTurnButton();
         
         //set up layout
-        mainPanel = new JPanel();
-        mainPanel.setLayout( new GridLayout( 5, 1 ) );
+        tossMainPanel = new JPanel();
+        tossMainPanel.setLayout( new GridLayout( 5, 1 ) );
         // Borderlayout gridbaglayout
-//        mainPanel.setLayout( new GridBagLayout() );
-        mainPanel.add( teamText );
-        mainPanel.add( toss );
-        mainPanel.add( panel1 ); //Sticks go here
-        mainPanel.add( totalText );
-        mainPanel.add( endTurn );
+//        tossMainPanel.setLayout( new GridBagLayout() );
+        tossMainPanel.add( teamText );
+        tossMainPanel.add( toss );
+        tossMainPanel.add( panel1 ); //Sticks go here
+        tossMainPanel.add( totalText );
+        tossMainPanel.add( endTurn );
         
         frame = new JFrame();
         frame.setTitle( "Yunnori Sticks" );
         frame.setSize( 350, 450 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.add( mainPanel );
+        frame.add( tossMainPanel );
         frame.setVisible( true );
         
         
@@ -117,6 +121,8 @@ public class GameWindow
         
         team = new JComboBox();
         setTeamComboBox( numOfTeams );
+        
+        setUpMoveButton();
     }
 
 //---------------------------------------------------------------------------------------------------
@@ -228,7 +234,7 @@ public class GameWindow
 
     // INSERT TOSS STICKS PANEL CODE
     private JFrame frame;
-    private JPanel mainPanel, panel1, panel2;
+    private JPanel tossMainPanel, tossPanel1;
     private JButton toss;
     private JLabel tossText;
     private JButton endTurn;
@@ -474,6 +480,23 @@ public class GameWindow
             return 4;
         else
             return -1;
+    }
+    
+    public void setUpMoveButton()
+    {
+        move = new JButton( "Move" );
+        
+        class ButtonListener implements ActionListener
+        {
+            public void actionPerformed( ActionEvent event )
+            {
+                //movePiece is from the Board class
+                if( start.getSelectedIndex() != 0 && end.getSelectedIndex() != 0 )
+                    movePiece( convertToPath( start.getSelectedIndex() - 1 ), convertToIndex( start.getSelectedIndex() - 1 ), convertToPath( end.getSelectedIndex() ), convertToIndex( end.getSelectedIndex() ) );
+            }
+        }
+        ActionListener listener = new ButtonListener();
+        start.addActionListener( listener );
     }
 
 //-----------------------------------------------------------------------------------------------------
