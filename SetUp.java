@@ -11,6 +11,7 @@ public class SetUp
     private JButton start;
     private JSeparator divide;
     private JComboBox comboBox;
+    private String [] teamNames;
     
     public SetUp()
     {
@@ -55,8 +56,21 @@ public class SetUp
         {
             public void actionPerformed( ActionEvent event )
             {
-                TossSticksPanel startGame = new TossSticksPanel( comboBox.getSelectedIndex() );
-                Board board = new Board( startGame.getTeamNames() );
+                teamNames = new String[ comboBox.getSelectedIndex() ];
+                for( int i = 0; i < comboBox.getSelectedIndex(); i++ )
+                {
+                    if( i == 0 )
+                        teamNames[ i ] = "A";
+                    if( i == 1 )
+                        teamNames[ i ] = "B";
+                    if( i == 2 )
+                        teamNames[ i ] = "C";
+                    if( i == 3 )
+                        teamNames[ i ] = "D";
+                }
+                GameWindow G = new GameWindow( teamNames, comboBox.getSelectedIndex() );
+//                TossSticksPanel startGame = new TossSticksPanel( comboBox.getSelectedIndex() );
+//                Board board = new Board( startGame.getTeamNames() );
             }
         }
         ActionListener listener = new ButtonListener();
