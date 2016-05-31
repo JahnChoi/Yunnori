@@ -91,12 +91,12 @@ public class Board
             if( startZone[ t ] > 0 )
             {
                 startZone[ t ] = startZone[ t ] - 1;
-                Occupant newPiece = new Occupant( getCurrentTeam(), 1 ); //getCurrentTeam() is in TossSticksPanel
+                Occupant newPiece = new Occupant( teamNames[ getCurrentTeam() ], 1 ); //getCurrentTeam() is in TossSticksPanel
                 if( masterArray[ newPath ][ newLocation ] != null )
                 {
                     Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
 
-                    if( temp.getTeamName().equals( getCurrentTeam() ) )
+                    if( temp.getTeamName().equals( teamNames[ getCurrentTeam() ] ) )
                     {
                         newPiece.addPieces( temp.getNumOfPieces() );
                     }
