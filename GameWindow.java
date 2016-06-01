@@ -30,7 +30,31 @@ public class GameWindow
     private JLabel movePieceText, fromText, toText, ifStartText, selectTeamText;
     
     private JButton move;
-    private JLabel moveLabel;    
+    private JLabel moveLabel;   
+
+    private JFrame boardFrame;
+    private JPanel boardPanel;
+//    private JLabel title, image;
+    
+    private Occupant[] masterArray;
+    
+    private String[] teamNames;
+    
+    private int[] startZone;
+    private int[] score;
+    
+    private JFrame frame;
+    private JPanel tossMainPanel, tossPanel1;
+    private JButton toss;
+    private JLabel tossText;
+    private JButton endTurn;
+    private JLabel endTurnText;
+    private JLabel teamText;
+    private int numberOfTeams;
+    private int currentTeam;
+    private JLabel totalText, sticksImage;
+    private JLabel displayTotal;
+    private int total;
     
     public GameWindow( String[] teamList, int numOfTeams )
     {
@@ -51,10 +75,8 @@ public class GameWindow
         
         pane = new JPanel( new GridBagLayout() );
         c = new GridBagConstraints();
-        if( shouldFill )
-        {
-            c.fill = GridBagConstraints.HORIZONTAL;
-        }
+        //c.fill = GridBagConstraints.HORIZONTAL;
+
         
         title = new JLabel( "Yunnori" ); //change font size so can fill 3 units (?)
         title.setHorizontalAlignment( 0 );
@@ -67,36 +89,39 @@ public class GameWindow
         startZoneLabel.setHorizontalAlignment( 0 );
         c.gridwidth = 11;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 1;
         pane.add( startZoneLabel, c );
         
         teamAndPieceLabel = new JLabel( "Team  ---  # Piece(s)" );
         teamAndPieceLabel.setHorizontalAlignment( 0 );
         c.gridwidth = 11;
         c.gridx = 0;
-        c.gridy = 7;
+        c.gridy = 2;
         pane.add( teamAndPieceLabel, c );
         
         //sets up all teams' data and places on pane
         setUpStartChart( numOfTeams );
         
         //Board goes here
+        c.gridx = 1;
+        c.gridy = 0;
+        pane.add( board );
         
         //Resume TossSticksPanel
         teamText = new JLabel();
         teamText.setText( "Team " + teamNames[ currentTeam ] );
         teamText.setHorizontalAlignment( 0 );
         c.gridwidth = 15;
-        c.gridx = 32;
-        c.gridy = 0;
+        c.gridx = 0;
+        c.gridy = 16;
         pane.add( teamText, c );
         
         totalText = new JLabel();
         totalText.setText( "TOTAL: " + total );
         totalText.setHorizontalAlignment( 0 );
-        c.gridwidth = 15;
-        c.gridx = 32;
-        c.gridy = 13;
+        c.gridwidth = 16;
+        c.gridx = 1;
+        c.gridy = 16;
         pane.add( totalText, c );
         
         //sets up button and places on pane
@@ -109,39 +134,49 @@ public class GameWindow
         c.gridwidth = 9;
         c.gridheight = 2;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 17;
         pane.add( movePieceText, c );
         
         //fix formatting
         fromText = new JLabel( "From: " );
-        c.gridwidth = 9;
-        c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 3;
+        c.gridwidth = 5;
+        //c.gridheight = 2;
+        c.gridx = 1;
+        c.gridy = 17;
         pane.add( fromText, c );
+        
+        start = new JComboBox();
+        c.gridwidth = 4;
+        c.gridx = 1;
+        c.gridy = 18;
         
         toText = new JLabel( "to: " );
         c.gridwidth = 9;
-        c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 5;
+        //c.gridheight = 2;
+        c.gridx = 2;
+        c.gridy = 17;
         pane.add( toText, c );
+        
+        end = new JComboBox();
         
         ifStartText = new JLabel( "If moving from START," );
         ifStartText.setHorizontalAlignment( 0 );
         c.gridwidth = 9;
         c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 8;
+        c.gridx = 3;
+        c.gridy = 17;
         pane.add( ifStartText, c );
         
         selectTeamText = new JLabel( "select team: " );
         selectTeamText.setHorizontalAlignment( 0 );
         c.gridwidth = 9;
         c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 10;
+        c.gridx = 4;
+        c.gridy = 17;
         pane.add( selectTeamText, c );
+
+        team = new JComboBox();
+        setTeamComboBox( numOfTeams );
         
         //sets up move button and places on pane
         setUpMoveButton();
@@ -252,7 +287,7 @@ public class GameWindow
                 aTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 9;
+                c.gridy = 3;
             }
             if( i == 1 )
             {
@@ -260,7 +295,7 @@ public class GameWindow
                 bTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 11;
+                c.gridy = 4;
             }
             if( i == 2 )
             {
@@ -268,7 +303,7 @@ public class GameWindow
                 cTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 13;
+                c.gridy = 5;
             }
             if( i == 3 )
             {
@@ -276,7 +311,7 @@ public class GameWindow
                 dTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 15;
+                c.gridy = 6;
             }                       
         }
     }
@@ -284,16 +319,7 @@ public class GameWindow
 //---------------------------------------------------------------------------------------------------
 
     // INSERT BOARD CODE
-    private JFrame boardFrame;
-    private JPanel boardPanel;
-//    private JLabel title, image;
-    
-    private Occupant[] masterArray;
-    
-    private String[] teamNames;
-    
-    private int[] startZone;
-    private int[] score;
+
     
     public void setUpScoreAndStartZone( int numTeams )
     {     
@@ -383,18 +409,7 @@ public class GameWindow
 //---------------------------------------------------------------------------------------------------------
 
     // INSERT TOSS STICKS PANEL CODE
-    private JFrame frame;
-    private JPanel tossMainPanel, tossPanel1;
-    private JButton toss;
-    private JLabel tossText;
-    private JButton endTurn;
-    private JLabel endTurnText;
-    private JLabel teamText;
-    private int numberOfTeams;
-    private int currentTeam;
-    private JLabel totalText, sticksImage;
-    private JLabel displayTotal;
-    private int total;
+
     
     public int getTotal()
     {
@@ -442,8 +457,8 @@ public class GameWindow
         toss = new JButton( "Toss" );
         toss.setHorizontalAlignment( 0 );
         c.gridwidth = 15;
-        c.gridx = 0;
-        c.gridy = 7;
+        c.gridx = 3;
+        c.gridy = 16;
         pane.add( toss, c );
         class ButtonListener implements ActionListener
         {
@@ -493,8 +508,8 @@ public class GameWindow
         endTurn = new JButton( "End Turn" );
         endTurn.setHorizontalAlignment( 0 );
         c.gridwidth = 15;
-        c.gridx = 0;
-        c.gridy = 7;
+        c.gridx = 4;
+        c.gridy = 16;
         pane.add( endTurn, c );
         class ButtonListener implements ActionListener
         {
@@ -584,7 +599,12 @@ public class GameWindow
     public void setUpMoveButton()
     {
         move = new JButton( "Move" );
-        //format this
+        move.setHorizontalAlignment( 0 );
+        c.gridwidth = 9;
+        c.gridx = 5;
+        c.gridy = 17;
+        pane.add( move, c );
+
         class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
