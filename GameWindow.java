@@ -12,40 +12,23 @@ public class GameWindow
     private JLabel image, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17;
     private JComboBox comboBox1, comboBox2, comboBox3;
     
+    private JLabel startChartLabel, teamAndPieceLabel, aTeam, bTeam, cTeam, dTeam;
     
     public GameWindow( String[] teamList, int numOfTeams )
     {
-        // BOARD
-        path0 = new Occupant[ 1 ];
-        path1 = new Occupant[ 5 ];
-        path2 = new Occupant[ 5 ];
-        path3 = new Occupant[ 4 ];
-        path4 = new Occupant[ 5 ];
-        path5 = new Occupant[ 2 ];
-        path6 = new Occupant[ 2 ];
-        path7 = new Occupant[ 2 ];
-        path8 = new Occupant[ 2 ];
-        path9 = new Occupant[ 1 ];
-        path10 = new Occupant[ 1 ];
-        
+        // BOARD       
+        masterArray = new Occupant[ 31 ];
         teamNames = teamList;
-        
-        masterArray = new Occupant[ 11 ][];
-        masterArray[ 0 ] = path0;
-        masterArray[ 1 ] = path1;
-        masterArray[ 2 ] = path2;
-        masterArray[ 3 ] = path3;
-        masterArray[ 4 ] = path4;
-        masterArray[ 5 ] = path5;
-        masterArray[ 6 ] = path6;
-        masterArray[ 7 ] = path7;
-        masterArray[ 8 ] = path8;
-        masterArray[ 9 ] = path9;
-        masterArray[ 10 ] = path10;
         
         startZone = new int[ teamList.length ];
         score = new int[ teamList.length ];
         setUpScoreAndStartZone( teamList.length );
+        
+        //START ZONE TABLE
+        //This MUST be below setUpScoreAndStartZone
+        startChartLabel = new JLabel( "START" );
+        teamAndPieceLabel = new JLabel( "Team   ---   Piece(s) Left" );
+        setUpStartChart( numOfTeams );
         
         //---------------------------------------
         
@@ -141,7 +124,23 @@ public class GameWindow
 //        
 //        setUpMoveButton();
     }
-
+    //---------------------------------------------------------------------------------------------------
+    
+    public void setUpStartChart( int n )
+    {
+        for( int i = 0; i < n; i++ )
+        {
+            if( i == 0 )
+                aTeam = new JLabel( "<html><font color='green'>A   ---   " + score[ 0 ] + "</font></html>" );
+            if( i == 1 )
+                bTeam = new JLabel( "<html><font color='blue'>B   ---   " + score[ 1 ] + "</font></html>" );
+            if( i == 2 )
+                cTeam = new JLabel( "<html><font color='pink'>C   ---   " + score[ 2 ] + "</font></html>" );
+            if( i == 3 )
+                dTeam = new JLabel( "<html><font color='orange'>D   ---   " + score[ 3 ] + "</font></html>" );
+        }
+    }
+    
 //---------------------------------------------------------------------------------------------------
 
     // INSERT BOARD CODE
@@ -149,8 +148,7 @@ public class GameWindow
     private JPanel boardPanel;
 //    private JLabel title, image;
     
-    private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
-    private Occupant[][] masterArray;
+    private Occupant[] masterArray;
     
     private String[] teamNames;
     
@@ -165,20 +163,22 @@ public class GameWindow
             startZone[ i ] = 4;
         }
     }
-    
-    //revise checking for null/nonexistant location
-    public void movePiece( int oldPath, int oldLocation, int newPath, int newLocation )
+
+    public void movePiece( int oldLocation, int newLocation )
     {
-        if( oldPath == 100 && oldLocation == 100 )
+        //moving a piece from the starting zone
+        if( oldLocation == 0 )
         {
-            int t = team.getSelectedIndex() - 1; //team is the ComboBox from SelectionPanel
+            int t = team.getSelectedIndex() - 1;
+            
             if( startZone[ t ] > 0 )
             {
                 startZone[ t ] = startZone[ t ] - 1;
-                Occupant newPiece = new Occupant( teamNames[ getCurrentTeam() ], 1 ); //getCurrentTeam() is in TossSticksPanel
-                if( masterArray[ newPath ][ newLocation ] != null )
+                Occupant newPiece = new Occupant( teamNames[ getCurrentTeam() ], 1 );
+                
+                if( masterArray[ newLocation ] != null )
                 {
-                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
+                    Occupant temp = new Occupant( masterArray[ newLocation ].getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
 
                     if( temp.getTeamName().equals( teamNames[ getCurrentTeam() ] ) )
                     {
@@ -193,15 +193,15 @@ public class GameWindow
                         }
                     }
                 }
-                masterArray[ newPath ][ newLocation ] = newPiece;
+                masterArray[ newLocation ] = newPiece;
             }
         }
         
-        if( oldPath != 100 && oldLocation != 100 && masterArray[ oldPath ][ oldLocation ] != null )
+        if( oldLocation != 0 && masterArray[ oldLocation ] != null )
         {
-            Occupant old = masterArray[ oldPath ][ oldLocation ];
+            Occupant old = masterArray[ oldLocation ];
 
-            if( newPath == 10 )
+            if( oldLocation == 30 )
             {
                 int x = 0;
                 for( int i = 0; i < teamNames.length; i++ )
@@ -209,42 +209,35 @@ public class GameWindow
                     if( old.getTeamName().equals( teamNames[ i ] ) )
                         x = i;
                 }
-                masterArray[ 10 ][ 0 ] = null;
+                masterArray[ 30 ] = null;
                 score[ x ] +=  old.getNumOfPieces();
+                
                 if( score[ x ] == 4 )
-                {
                     endGame( teamNames[ x ] );
-                }
             }
             else
             {
-                if( masterArray[ newPath ][ newLocation ] != null )
+                if( masterArray[ newLocation ] != null )
                 {
-                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
+                    Occupant temp = new Occupant( masterArray[ newLocation ].getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
 
                     if( temp.getTeamName().equals( old.getTeamName() ) )
-                    {
                         old.addPieces( temp.getNumOfPieces() );
-                    }
 
                     else
-                    {
-                        
+                    { 
                         for( int i = 0; i < teamNames.length; i++ )
                         {
                             if( teamNames[ i ].equals( temp.getTeamName() ))
                                 score[ i ] += temp.getNumOfPieces();
                         }
-
                     }
                 }
-
-                masterArray[ newPath ][ newLocation ] = old;
-                masterArray[ oldPath ][ oldLocation ] = null;
                 
+                masterArray[ newLocation ] = old;
+                masterArray[ oldLocation ] = null;  
             }
         }
-
     }
 
 //---------------------------------------------------------------------------------------------------------
@@ -450,55 +443,6 @@ public class GameWindow
         end.setModel( new javax.swing.DefaultComboBoxModel( list ) );
     }
     
-    public int convertToPath( int n )
-    {
-        if( n == 0 )
-            return 100;        
-        else if( n == 1 )
-            return 9;
-        else if( n >= 2 && n <= 6 )
-            return 1;
-        else if( n >= 7 && n <= 11 )
-            return 2;
-        else if( n >=12 && n <= 15)
-            return 3;
-        else if( n >=16 && n <=20 )
-            return 4;
-        else if( n == 21 && n == 22 )
-            return 5;
-        else if( n == 23 )
-            return 0;
-        else if( n == 24 && n == 25 )
-            return 8;
-        else if( n == 26 && n == 27 )
-            return 7;
-        else if( n == 28 && n == 29 )
-            return 6;
-        else if( n == 30 )
-            return 10;
-        else
-            return -1;
- 
-    }
-    
-    public int convertToIndex( int n )
-    {
-        if( n == 0 )
-            return 100;
-        if(  n == 1 || n == 2 || n == 7 || n == 12 || n == 16 || n == 21 ||n == 23 || n == 24 || n == 26 || n == 28 || n == 30 )
-            return 0;
-        if(  n == 3 || n == 8 || n == 13 || n == 17 || n == 22 || n == 25 ||n == 27 || n == 29 )
-            return 1;
-        if(  n == 4 || n == 9 || n == 14 || n == 18 )
-            return 2;
-        if(  n == 5 || n == 10 || n == 15 || n == 19 )
-            return 3;
-        if( n == 6 || n == 11 || n == 20 )
-            return 4;
-        else
-            return -1;
-    }
-    
     public void setUpMoveButton()
     {
         move = new JButton( "Move" );
@@ -507,9 +451,8 @@ public class GameWindow
         {
             public void actionPerformed( ActionEvent event )
             {
-                //movePiece is from the Board class
                 if( start.getSelectedIndex() != 0 && end.getSelectedIndex() != 0 )
-                    movePiece( convertToPath( start.getSelectedIndex() - 1 ), convertToIndex( start.getSelectedIndex() - 1 ), convertToPath( end.getSelectedIndex() ), convertToIndex( end.getSelectedIndex() ) );
+                    movePiece( start.getSelectedIndex() - 1, end.getSelectedIndex() );
             }
         }
         ActionListener listener = new ButtonListener();
