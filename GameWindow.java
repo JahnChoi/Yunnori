@@ -149,6 +149,7 @@ public class GameWindow
         c.gridwidth = 4;
         c.gridx = 1;
         c.gridy = 18;
+        pane.add( start, c );
         
         toText = new JLabel( "to: " );
         c.gridwidth = 9;
@@ -158,6 +159,10 @@ public class GameWindow
         pane.add( toText, c );
         
         end = new JComboBox();
+        c.gridwidth = 4;
+        c.gridx = 2;
+        c.gridy = 18;
+        pane.add( end, c );
         
         ifStartText = new JLabel( "If moving from START," );
         ifStartText.setHorizontalAlignment( 0 );
@@ -177,6 +182,9 @@ public class GameWindow
 
         team = new JComboBox();
         setTeamComboBox( numOfTeams );
+        c.gridx = 4;
+        c.gridy = 18;
+        pane.add( team );
         
         //sets up move button and places on pane
         setUpMoveButton();
