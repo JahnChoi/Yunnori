@@ -103,105 +103,105 @@ public class GameWindow
         setUpStartChart( numOfTeams );
         
         //Board goes here
-        c.gridx = 1;
-        c.gridy = 0;
-        pane.add( board );
+//        c.gridx = 1;
+//        c.gridy = 0;
+//        pane.add( board );
         
         //Resume TossSticksPanel
-        teamText = new JLabel();
-        teamText.setText( "Team " + teamNames[ currentTeam ] );
-        teamText.setHorizontalAlignment( 0 );
-        c.gridwidth = 15;
-        c.gridx = 0;
-        c.gridy = 16;
-        pane.add( teamText, c );
-        
-        totalText = new JLabel();
-        totalText.setText( "TOTAL: " + total );
-        totalText.setHorizontalAlignment( 0 );
-        c.gridwidth = 16;
-        c.gridx = 1;
-        c.gridy = 16;
-        pane.add( totalText, c );
-        
-        //sets up button and places on pane
-        setUpTossButton();
-        setUpEndTurnButton();
-        
-        //SelectionPanel
-        movePieceText = new JLabel( "Move piece(s)" );
-        movePieceText.setHorizontalAlignment( 0 );
-        c.gridwidth = 9;
-        c.gridheight = 2;
-        c.gridx = 0;
-        c.gridy = 17;
-        pane.add( movePieceText, c );
-        
-        //fix formatting
-        fromText = new JLabel( "From: " );
-        c.gridwidth = 5;
-        //c.gridheight = 2;
-        c.gridx = 1;
-        c.gridy = 17;
-        pane.add( fromText, c );
-        
-        start = new JComboBox();
-        c.gridwidth = 4;
-        c.gridx = 1;
-        c.gridy = 18;
-        pane.add( start, c );
-        
-        toText = new JLabel( "to: " );
-        c.gridwidth = 9;
-        //c.gridheight = 2;
-        c.gridx = 2;
-        c.gridy = 17;
-        pane.add( toText, c );
-        
-        end = new JComboBox();
-        c.gridwidth = 4;
-        c.gridx = 2;
-        c.gridy = 18;
-        pane.add( end, c );
-        
-        ifStartText = new JLabel( "If moving from START," );
-        ifStartText.setHorizontalAlignment( 0 );
-        c.gridwidth = 9;
-        c.gridheight = 2;
-        c.gridx = 3;
-        c.gridy = 17;
-        pane.add( ifStartText, c );
-        
-        selectTeamText = new JLabel( "select team: " );
-        selectTeamText.setHorizontalAlignment( 0 );
-        c.gridwidth = 9;
-        c.gridheight = 2;
-        c.gridx = 4;
-        c.gridy = 17;
-        pane.add( selectTeamText, c );
-
-        team = new JComboBox();
-        setTeamComboBox( numOfTeams );
-        c.gridx = 4;
-        c.gridy = 18;
-        pane.add( team );
+//        teamText = new JLabel();
+//        teamText.setText( "Team " + teamNames[ currentTeam ] );
+//        teamText.setHorizontalAlignment( 0 );
+//        c.gridwidth = 15;
+//        c.gridx = 0;
+//        c.gridy = 16;
+//        pane.add( teamText, c );
+//        
+//        totalText = new JLabel();
+//        totalText.setText( "TOTAL: " + total );
+//        totalText.setHorizontalAlignment( 0 );
+//        c.gridwidth = 16;
+//        c.gridx = 1;
+//        c.gridy = 16;
+//        pane.add( totalText, c );
+//        
+//        //sets up button and places on pane
+//        setUpTossButton();
+//        setUpEndTurnButton();
+//        
+//        //SelectionPanel
+//        movePieceText = new JLabel( "Move piece(s)" );
+//        movePieceText.setHorizontalAlignment( 0 );
+//        c.gridwidth = 9;
+//        c.gridheight = 2;
+//        c.gridx = 0;
+//        c.gridy = 17;
+//        pane.add( movePieceText, c );
+//        
+//        //fix formatting
+//        fromText = new JLabel( "From: " );
+//        c.gridwidth = 5;
+//        //c.gridheight = 2;
+//        c.gridx = 1;
+//        c.gridy = 17;
+//        pane.add( fromText, c );
+//        
+//        start = new JComboBox();
+//        c.gridwidth = 4;
+//        c.gridx = 1;
+//        c.gridy = 18;
+//        pane.add( start, c );
+//        
+//        toText = new JLabel( "to: " );
+//        c.gridwidth = 9;
+//        //c.gridheight = 2;
+//        c.gridx = 2;
+//        c.gridy = 17;
+//        pane.add( toText, c );
+//        
+//        end = new JComboBox();
+//        c.gridwidth = 4;
+//        c.gridx = 2;
+//        c.gridy = 18;
+//        pane.add( end, c );
+//        
+//        ifStartText = new JLabel( "If moving from START," );
+//        ifStartText.setHorizontalAlignment( 0 );
+//        c.gridwidth = 9;
+//        c.gridheight = 2;
+//        c.gridx = 3;
+//        c.gridy = 17;
+//        pane.add( ifStartText, c );
+//        
+//        selectTeamText = new JLabel( "select team: " );
+//        selectTeamText.setHorizontalAlignment( 0 );
+//        c.gridwidth = 9;
+//        c.gridheight = 2;
+//        c.gridx = 4;
+//        c.gridy = 17;
+//        pane.add( selectTeamText, c );
+//
+//        team = new JComboBox();
+//        setTeamComboBox( numOfTeams );
+//        c.gridx = 4;
+//        c.gridy = 18;
+//        pane.add( team );
         
         //sets up move button and places on pane
-        setUpMoveButton();
+//        setUpMoveButton();
 
         //---------------------------------------
         
-        panel = new JPanel();
-        panel.setLayout( new GridLayout( 1, 1 ) );
-        image = new JLabel();
-        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.jpg" ) ) );
-        panel.add( image );
+//        panel = new JPanel();
+//        panel.setLayout( new GridLayout( 1, 1 ) );
+//        image = new JLabel();
+//        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.jpg" ) ) );
+//        panel.add( image );
         
         mainFrame = new JFrame();
         mainFrame.setSize( 1250, 900 );
         mainFrame.setTitle( "YUNNORI (Traditional Korean Board Game)" );
         mainFrame.setLayout( new GridBagLayout() );
-        mainFrame.add( panel );
+        mainFrame.add( pane );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
         
