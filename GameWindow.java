@@ -1,3 +1,4 @@
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,8 +12,25 @@ public class GameWindow
     private JLabel label, label1, label2, label3, label4, label5;
     private JLabel image, image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15, image16, image17;
     private JComboBox comboBox1, comboBox2, comboBox3;
+ 
+    private JFrame selectionFrame;
+    private JPanel selectionPanel;
+    private JLabel directionText;
     
-    private JLabel startChartLabel, teamAndPieceLabel, aTeam, bTeam, cTeam, dTeam;
+    private JComboBox start;
+    private JComboBox end;
+    private JComboBox team;
+    
+    private JPanel pane;
+    private GridBagConstraints c;
+    private JLabel title;
+    private JLabel startZoneLabel;
+    private JLabel teamAndPieceLabel, aTeam, bTeam, cTeam, dTeam;
+    
+    private JLabel movePieceText, fromText, toText, ifStartText, selectTeamText;
+    
+    private JButton move;
+    private JLabel moveLabel;    
     
     public GameWindow( String[] teamList, int numOfTeams )
     {
@@ -26,10 +44,108 @@ public class GameWindow
         
         //START ZONE TABLE
         //This MUST be below setUpScoreAndStartZone
-        startChartLabel = new JLabel( "START" );
-        teamAndPieceLabel = new JLabel( "Team   ---   Piece(s) Left" );
+
+        //---------------------------------------
+        //Kelly did this, so hopefully it works :)
+        //https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
+        
+        pane = new JPanel( new GridBagLayout() );
+        c = new GridBagConstraints();
+        if( shouldFill )
+        {
+            c.fill = GridBagConstraints.HORIZONTAL;
+        }
+        
+        title = new JLabel( "Yunnori" ); //change font size so can fill 3 units (?)
+        title.setHorizontalAlignment( 0 );
+        c.gridwidth = 11;
+        c.gridx = 0;
+        c.gridy = 0;
+        pane.add( title, c );
+        
+        startZoneLabel = new JLabel( "START ZONE" ); //change font size
+        startZoneLabel.setHorizontalAlignment( 0 );
+        c.gridwidth = 11;
+        c.gridx = 0;
+        c.gridy = 4;
+        pane.add( startZoneLabel, c );
+        
+        teamAndPieceLabel = new JLabel( "Team  ---  # Piece(s)" );
+        teamAndPieceLabel.setHorizontalAlignment( 0 );
+        c.gridwidth = 11;
+        c.gridx = 0;
+        c.gridy = 7;
+        pane.add( teamAndPieceLabel, c );
+        
+        //sets up all teams' data and places on pane
         setUpStartChart( numOfTeams );
         
+        //Board goes here
+        
+        //Resume TossSticksPanel
+        teamText = new JLabel();
+        teamText.setText( "Team " + teamNames[ currentTeam ] );
+        teamText.setHorizontalAlignment( 0 );
+        c.gridwidth = 15;
+        c.gridx = 32;
+        c.gridy = 0;
+        pane.add( teamText, c );
+        
+        totalText = new JLabel();
+        totalText.setText( "TOTAL: " + total );
+        totalText.setHorizontalAlignment( 0 );
+        c.gridwidth = 15;
+        c.gridx = 32;
+        c.gridy = 13;
+        pane.add( totalText, c );
+        
+        //sets up button and places on pane
+        setUpTossButton();
+        setUpEndTurnButton();
+        
+        //SelectionPanel
+        movePieceText = new JLabel( "Move piece(s)" );
+        movePieceText.setHorizontalAlignment( 0 );
+        c.gridwidth = 9;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 1;
+        pane.add( movePieceText, c );
+        
+        //fix formatting
+        fromText = new JLabel( "From: " );
+        c.gridwidth = 9;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 3;
+        pane.add( fromText, c );
+        
+        toText = new JLabel( "to: " );
+        c.gridwidth = 9;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 5;
+        pane.add( toText, c );
+        
+        ifStartText = new JLabel( "If moving from START," );
+        ifStartText.setHorizontalAlignment( 0 );
+        c.gridwidth = 9;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 8;
+        pane.add( ifStartText, c );
+        
+        selectTeamText = new JLabel( "select team: " );
+        selectTeamText.setHorizontalAlignment( 0 );
+        c.gridwidth = 9;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 10;
+        pane.add( selectTeamText, c );
+        
+        //sets up move button and places on pane
+        setUpMoveButton();
+
         //---------------------------------------
         
         panel = new JPanel();
@@ -66,8 +182,8 @@ public class GameWindow
 //        boardFrame.setVisible( true );
 //        
 //        // TOSS STICKS PANEL
-////        numberOfTeams = numOfTeams + 1;
-////        setUpTeams( numberOfTeams );
+//        numberOfTeams = numOfTeams + 1;
+//        setUpTeams( numberOfTeams );
 //        
 //        teamText = new JLabel();
 //        teamText.setText( "Team " + teamNames[ currentTeam ] );
@@ -131,13 +247,37 @@ public class GameWindow
         for( int i = 0; i < n; i++ )
         {
             if( i == 0 )
+            {
                 aTeam = new JLabel( "<html><font color='green'>A   ---   " + score[ 0 ] + "</font></html>" );
+                aTeam.setHorizontalAlignment( 0 );
+                c.gridwidth = 11;
+                c.gridx = 0;
+                c.gridy = 9;
+            }
             if( i == 1 )
+            {
                 bTeam = new JLabel( "<html><font color='blue'>B   ---   " + score[ 1 ] + "</font></html>" );
+                bTeam.setHorizontalAlignment( 0 );
+                c.gridwidth = 11;
+                c.gridx = 0;
+                c.gridy = 11;
+            }
             if( i == 2 )
+            {
                 cTeam = new JLabel( "<html><font color='pink'>C   ---   " + score[ 2 ] + "</font></html>" );
+                cTeam.setHorizontalAlignment( 0 );
+                c.gridwidth = 11;
+                c.gridx = 0;
+                c.gridy = 13;
+            }
             if( i == 3 )
+            {
                 dTeam = new JLabel( "<html><font color='orange'>D   ---   " + score[ 3 ] + "</font></html>" );
+                dTeam.setHorizontalAlignment( 0 );
+                c.gridwidth = 11;
+                c.gridx = 0;
+                c.gridy = 15;
+            }                       
         }
     }
     
@@ -300,6 +440,11 @@ public class GameWindow
     public void setUpTossButton()
     {
         toss = new JButton( "Toss" );
+        toss.setHorizontalAlignment( 0 );
+        c.gridwidth = 15;
+        c.gridx = 0;
+        c.gridy = 7;
+        pane.add( toss, c );
         class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
@@ -346,7 +491,11 @@ public class GameWindow
     public void setUpEndTurnButton()
     {
         endTurn = new JButton( "End Turn" );
-        
+        endTurn.setHorizontalAlignment( 0 );
+        c.gridwidth = 15;
+        c.gridx = 0;
+        c.gridy = 7;
+        pane.add( endTurn, c );
         class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
@@ -384,18 +533,7 @@ public class GameWindow
     // INSERT SELECTION PANEL CODE
 
 //     **GUI FOR SELECTION PANEL**
-    private JFrame selectionFrame;
-    private JPanel selectionPanel;
-    private JLabel directionText;
-    private JLabel toText;
-    private JLabel ifStartText;
-    
-    private JComboBox start;
-    private JComboBox end;
-    private JComboBox team;
-    
-    private JButton move;
-    private JLabel moveLabel;
+
     
     public void setTeamComboBox( int x )
     {
@@ -446,13 +584,24 @@ public class GameWindow
     public void setUpMoveButton()
     {
         move = new JButton( "Move" );
-        
+        //format this
         class ButtonListener implements ActionListener
         {
             public void actionPerformed( ActionEvent event )
             {
                 if( start.getSelectedIndex() != 0 && end.getSelectedIndex() != 0 )
                     movePiece( start.getSelectedIndex() - 1, end.getSelectedIndex() );
+                for( int i = 0; i < teamNames.length; i++ )
+                {
+                    if( i == 0 )
+                        aTeam.setText( "<html><font color='green'>A   ---   " + score[ 0 ] + "</font></html>" );
+                    if( i == 1 )
+                        bTeam.setText( "<html><font color='blue'>B   ---   " + score[ 1 ] + "</font></html>" );
+                    if( i == 2 )
+                        cTeam.setText( "<html><font color='pink'>C   ---   " + score[ 2 ] + "</font></html>" );
+                    if( i == 3 )
+                        dTeam.setText( "<html><font color='orange'>D   ---   " + score[ 3 ] + "</font></html>" );
+                }
             }
         }
         ActionListener listener = new ButtonListener();
