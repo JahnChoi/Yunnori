@@ -2,13 +2,14 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import javax.swing.*;
 
-public class Board extends JPanel
+public class Board extends BackgroundPanel
 {
     private JLabel image;
+    //private BackgroundPanel background;
 
     public Board()
     {
-        
+        super();
         setLayout( new GridLayout( 15, 15 ) );
         
         //----------------------------------------------------------------------------------------------------
@@ -19,10 +20,10 @@ public class Board extends JPanel
 //        
 //        mainPanel = new JPanel();
 //        mainPanel.setLayout( new GridLayout( 1, 1 ) );
-        image = new JLabel();
-        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
-        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Board.jpg" ) ) );
-        add( image );
+//        image = new JLabel();
+//        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
+//        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Board.jpg" ) ) );
+//        add( image );
 //        mainPanel.add( image );
         
 //        frame = new JFrame();
