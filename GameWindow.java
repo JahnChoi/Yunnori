@@ -306,6 +306,7 @@ public class GameWindow
                 c.gridwidth = 11;
                 c.gridx = 0;
                 c.gridy = 3;
+                pane.add( aTeam );
             }
             if( i == 1 )
             {
@@ -314,6 +315,7 @@ public class GameWindow
                 c.gridwidth = 11;
                 c.gridx = 0;
                 c.gridy = 4;
+                pane.add( bTeam );
             }
             if( i == 2 )
             {
@@ -322,6 +324,7 @@ public class GameWindow
                 c.gridwidth = 11;
                 c.gridx = 0;
                 c.gridy = 5;
+                pane.add( cTeam );
             }
             if( i == 3 )
             {
@@ -330,6 +333,7 @@ public class GameWindow
                 c.gridwidth = 11;
                 c.gridx = 0;
                 c.gridy = 6;
+                pane.add( dTeam );
             }                       
         }
     }
