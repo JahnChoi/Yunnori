@@ -574,8 +574,8 @@ public class GameWindow
     
     public void setTeamComboBox( int x )
     {
-        String [] list = new String[ x + 1 ];
-        for( int i = 0; i < x; i++ )
+        String [] list = new String[ x + 2 ];
+        for( int i = 0; i < list.length; i++ )
         {
             if( i == 0 )
                 list[ i ] = " ";
