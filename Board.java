@@ -1,165 +1,200 @@
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class Board
+public class Board extends JPanel
 {
-    private JFrame frame;
-    private JPanel mainPanel;
-    private JLabel title, image;
-    
-    private Occupant[] path0, path1, path2, path3, path4, path5, path6, path7, path8, path9, path10;
-    private Occupant[][] masterArray;
-    
+    private JLabel image;
+       
     private String [] teamNames;
-    
-    private int[] startZone;
-    private int[] score;
 
-    public Board( String [] teamList )
+    public Board()
     {
-        path0 = new Occupant[ 1 ];
-        path1 = new Occupant[ 5 ];
-        path2 = new Occupant[ 5 ];
-        path3 = new Occupant[ 4 ];
-        path4 = new Occupant[ 5 ];
-        path5 = new Occupant[ 2 ];
-        path6 = new Occupant[ 2 ];
-        path7 = new Occupant[ 2 ];
-        path8 = new Occupant[ 2 ];
-        path9 = new Occupant[ 1 ];
-        path10 = new Occupant[ 1 ];
         
-        teamNames = teamList;
-        
-        masterArray = new Occupant[ 11 ][];
-        masterArray[ 0 ] = path0;
-        masterArray[ 1 ] = path1;
-        masterArray[ 2 ] = path2;
-        masterArray[ 3 ] = path3;
-        masterArray[ 4 ] = path4;
-        masterArray[ 5 ] = path5;
-        masterArray[ 6 ] = path6;
-        masterArray[ 7 ] = path7;
-        masterArray[ 8 ] = path8;
-        masterArray[ 9 ] = path9;
-        masterArray[ 10 ] = path10;
-        
-        startZone = new int[ teamList.length ];
-        score = new int[ teamList.length ];
-        setUpScoreAndStartZone( teamList.length );
+        setLayout( new GridLayout( 15, 15 ) );
         
         //----------------------------------------------------------------------------------------------------
-        
-        title = new JLabel();
-        title.setText( "Yunnori Board" );
-        title.setHorizontalAlignment( 0 );
-        
-        mainPanel = new JPanel();
-        mainPanel.setLayout( new GridLayout( 1, 1 ) );
+//        
+//        title = new JLabel();
+//        title.setText( "Yunnori Board" );
+//        title.setHorizontalAlignment( 0 );
+//        
+//        mainPanel = new JPanel();
+//        mainPanel.setLayout( new GridLayout( 1, 1 ) );
         image = new JLabel();
         // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
         image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Board.jpg" ) ) );
-        mainPanel.add( image );
+        add( image );
+//        mainPanel.add( image );
         
-        frame = new JFrame();
-        frame.setSize( 1000, 800 );
-        frame.setTitle( "Yunnori Board" );
-        frame.setLayout( new GridLayout( 1, 1 ) );
-        frame.add( mainPanel );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
+//        frame = new JFrame();
+//        frame.setSize( 1000, 800 );
+//        frame.setTitle( "Yunnori Board" );
+//        frame.setLayout( new GridLayout( 1, 1 ) );
+//        frame.add( mainPanel );
+//        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//        frame.setVisible( true );
     }
     
-    public void setUpScoreAndStartZone( int numTeams )
-    {     
-        for( int i = 0; i < numTeams; i++ )
-        {
-            score[ i ] = 0;
-            startZone[ i ] = 4;
-        }
-        
-    }
+//    protected void paintComponent( Graphics g )
+//    {
+//        super.paintComponent( g );
+//        g.drawImage( image, 0, 0, null ); //need image, not JLabel
+//    }
     
-    //revise checking for null/nonexistant location
-    public void movePiece( int oldPath, int oldLocation, int newPath, int newLocation )
+    public void update( Occupant [] newBoard )
     {
-        if( oldPath == 100 && oldLocation == 100 )
+        for( int r = 0; r < 15; r++ )
         {
-            int t = team.getSelectedIndex() - 1; //team is the ComboBox from SelectionPanel
-            if( startZone[ t ] > 0 )
+            for( int c = 0; c < 15; c++ )
             {
-                startZone[ t ] = startZone[ t ] - 1;
-                Occupant newPiece = new Occupant( teamNames[ getCurrentTeam() ], 1 ); //getCurrentTeam() is in TossSticksPanel
-                if( masterArray[ newPath ][ newLocation ] != null )
+                if( r != 0 && c != 0 )
+                    remove( 0 );
+                
+                if( r == 1 )
                 {
-                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
-
-                    if( temp.getTeamName().equals( teamNames[ getCurrentTeam() ] ) )
-                    {
-                        newPiece.addPieces( temp.getNumOfPieces() );
-                    }
-                    else
-                    {
-                        for( int i = 0; i < teamNames.length; i++ )
-                        {
-                            if( teamNames[ i ].equals( temp.getTeamName() ))
-                                score[ i ] += temp.getNumOfPieces();
-                        }
-                    }
+                    if( c == 1 && newBoard[ 16 ] != null )
+                        add( insertPiece( newBoard[ 16 ] ) );
+                    if( c == 3 && newBoard[ 15 ] != null )
+                        add( insertPiece( newBoard[ 15 ] ) );
+                    if( c == 6 && newBoard[ 14 ] != null )
+                        add( insertPiece( newBoard[ 14 ] ) );
+                    if( c == 8 && newBoard[ 13 ] != null )
+                        add( insertPiece( newBoard[ 13 ] ) );
+                    if( c == 11 && newBoard[ 12 ] != null )
+                        add( insertPiece( newBoard[ 12 ] ) );
+                    if( c == 13 && newBoard[ 11 ] != null )
+                        add( insertPiece( newBoard[ 11 ] ) );
                 }
-                masterArray[ newPath ][ newLocation ] = newPiece;
+                else if( r == 3 )
+                {
+                    if( c == 1 && newBoard[ 17 ] != null )
+                        add( insertPiece( newBoard[ 17 ] ) );
+                    if( c == 3 && newBoard[ 29 ] != null )
+                        add( insertPiece( newBoard[ 29 ] ) );
+                    if( c == 11 && newBoard[ 26 ] != null )
+                        add( insertPiece( newBoard[ 26 ] ) );
+                    if( c == 13 && newBoard[ 10 ] != null )
+                        add( insertPiece( newBoard[ 10 ] ) );                    
+                }
+                else if( r == 5 )
+                {
+                    if( c == 5 && newBoard[ 28 ] != null )
+                        add( insertPiece( newBoard[ 28 ] ) );
+                    if( c == 9 && newBoard[ 27 ] != null )
+                        add( insertPiece( newBoard[ 27 ] ) );
+                }
+                else if( r == 6 )
+                {
+                    if( c == 1 && newBoard[ 18 ] != null )
+                        add( insertPiece( newBoard[ 18 ] ) );
+                    if( c == 13 && newBoard[ 9 ] != null )
+                        add( insertPiece( newBoard[ 9 ] ) );
+                }
+                else if( r == 7 && c == 7 && newBoard[ 23 ] != null )
+                {
+                    add( insertPiece( newBoard[ 23 ] ) );
+                }
+                else if( r == 8 )
+                {
+                    if( c == 1 && newBoard[ 19 ] != null )
+                        add( insertPiece( newBoard[ 18 ] ) );
+                    if( c == 13 && newBoard[ 8 ] != null )
+                        add( insertPiece( newBoard[ 8 ] ) );
+                }
+                else if( r == 9 )
+                {
+                    if( c == 5 && newBoard[ 24 ] != null )
+                        add( insertPiece( newBoard[ 24 ] ) );
+                    if( c == 9 && newBoard[ 22 ] != null )
+                        add( insertPiece( newBoard[ 22 ] ) );
+                }
+                else if( r == 11 )
+                {
+                    if( c == 1 && newBoard[ 20 ] != null )
+                        add( insertPiece( newBoard[ 20 ] ) );
+                    if( c == 3 && newBoard[ 25 ] != null )
+                        add( insertPiece( newBoard[ 25 ] ) );
+                    if( c == 11 && newBoard[ 21 ] != null )
+                        add( insertPiece( newBoard[ 21 ] ) );
+                    if( c == 13 && newBoard[ 7 ] != null )
+                        add( insertPiece( newBoard[ 7 ] ) );                    
+                }
+                else if( r == 13 )
+                {
+                    if( c == 1 && newBoard[ 1 ] != null )
+                        add( insertPiece( newBoard[ 1 ] ) );
+                    if( c == 3 && newBoard[ 2 ] != null )
+                        add( insertPiece( newBoard[ 2 ] ) );
+                    if( c == 6 && newBoard[ 3 ] != null )
+                        add( insertPiece( newBoard[ 3 ] ) );
+                    if( c == 8 && newBoard[ 4 ] != null )
+                        add( insertPiece( newBoard[ 4 ] ) );
+                    if( c == 11 && newBoard[ 5 ] != null )
+                        add( insertPiece( newBoard[ 5 ] ) );
+                    if( c == 13 && newBoard[ 6 ] != null )
+                        add( insertPiece( newBoard[ 6 ] ) );
+                }
+                else
+                    add( new JLabel() ); 
             }
+        }
+    }
+    
+    public JLabel insertPiece( Occupant x )
+    {
+        JLabel piece = new JLabel();
+        
+        if( x.getTeamName().equals( "A" ) )
+        {
+            if( x.getNumOfPieces() == 1 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-1.png" ) ) );             
+            else if( x.getNumOfPieces() == 2 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-2.png" ) ) );              
+            else if( x.getNumOfPieces() == 3 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-3.png" ) ) );             
+            else
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-4.png" ) ) );  
+        }
+        else if( x.getTeamName().equals( "B" ) )
+        {
+            if( x.getNumOfPieces() == 1 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-1.png" ) ) );             
+            else if( x.getNumOfPieces() == 2 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-2.png" ) ) );              
+            else if( x.getNumOfPieces() == 3 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-3.png" ) ) );             
+            else
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-4.png" ) ) ); 
+        }
+        else if( x.getTeamName().equals( "C" ) )
+        {
+            if( x.getNumOfPieces() == 1 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-1.png" ) ) );             
+            else if( x.getNumOfPieces() == 2 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-2.png" ) ) );              
+            else if( x.getNumOfPieces() == 3 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-3.png" ) ) );             
+            else
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-4.png" ) ) ); 
+        }
+        else
+        {
+            if( x.getNumOfPieces() == 1 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-1.png" ) ) );             
+            else if( x.getNumOfPieces() == 2 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-2.png" ) ) );              
+            else if( x.getNumOfPieces() == 3 )
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-3.png" ) ) );             
+            else
+                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-4.png" ) ) ); 
         }
         
-        if( oldPath != 100 && oldLocation != 100 && masterArray[ oldPath ][ oldLocation ] != null )
-        {
-            Occupant old = masterArray[ oldPath ][ oldLocation ];
-
-            if( newPath == 10 )
-            {
-                int x = 0;
-                for( int i = 0; i < teamNames.length; i++ )
-                {
-                    if( old.getTeamName().equals( teamNames[ i ] ) )
-                        x = i;
-                }
-                masterArray[ 10 ][ 0 ] = null;
-                score[ x ] +=  old.getNumOfPieces();
-                if( score[ x ] == 4 )
-                {
-                    EndGame yay = new EndGame();
-                }
-            }
-            else
-            {
-                if( masterArray[ newPath ][ newLocation ] != null )
-                {
-                    Occupant temp = new Occupant( masterArray[ newPath ][ newLocation ].getTeamName(), masterArray[ newPath ][ newLocation ].getNumOfPieces() );
-
-                    if( temp.getTeamName().equals( old.getTeamName() ) )
-                    {
-                        old.addPieces( temp.getNumOfPieces() );
-                    }
-
-                    else
-                    {
-                        
-                        for( int i = 0; i < teamNames.length; i++ )
-                        {
-                            if( teamNames[ i ].equals( temp.getTeamName() ))
-                                score[ i ] += temp.getNumOfPieces();
-                        }
-
-                    }
-                }
-
-                masterArray[ newPath ][ newLocation ] = old;
-                masterArray[ oldPath ][ oldLocation ] = null;
-                
-            }
-        }
-
+        return piece;
     }
+
+    
+    
 }
