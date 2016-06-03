@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
 
 public class GameWindow
@@ -58,17 +60,25 @@ public class GameWindow
     private JLabel displayTotal;
     private int total;
     
-    private BackgroundPanel backPanel;
+    private Board1 board;
+    
+    int num1, num2;
     
     public GameWindow( String[] teamList, int numOfTeams )
     {
         // BOARD       
-        masterArray = new Occupant[ 31 ];
+        masterArray = new Occupant[ 30 ];
         teamNames = teamList;
         
-        startZone = new int[ teamList.length ];
+        startZone = new int[ teamList.length + 1 ];
         score = new int[ teamList.length + 1 ];
-        setUpScoreAndStartZone( teamList.length );
+        
+        for( int i = 0; i < numOfTeams + 1; i++ )
+        {
+            score[ i ] = 0;
+            startZone[ i ] = 4;
+        }
+//        setUpScoreAndStartZone( teamList.length + 1 );
         
         //START ZONE TABLE
         //This MUST be below setUpScoreAndStartZone
@@ -83,14 +93,14 @@ public class GameWindow
         //c.fill = GridBagConstraints.HORIZONTAL;
 
         
-        title = new JLabel( "<html><h1>Yunnori</h1></html>" ); //change font size so can fill 3 units (?)
+        title = new JLabel( "Yunnori" ); //change font size so can fill 3 units (?)
         title.setHorizontalAlignment( 0 );
 //        c.gridwidth = 0;
         c.gridx = 0;
         c.gridy = 0;
         pane.add( title, c );
         
-        startZoneLabel = new JLabel( "<html><h2>START ZONE</h2></html>" ); //change font size
+        startZoneLabel = new JLabel( "START ZONE" ); //change font size
         startZoneLabel.setHorizontalAlignment( 0 );
 //        c.gridwidth = 11;
         c.gridx = 0;
@@ -113,17 +123,18 @@ public class GameWindow
         
         //BOARD
 //        image1 = new JLabel();
-//        image1.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.png" ) ) );
-//        c.gridx = 0;
+//        image1.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/YunnoriBoard.png" ) ) );
+//        c.gridx = 1;
 //        c.gridy = 1;
 //        pane.add( image1, c );
+
         
-        backPanel = new BackgroundPanel();
-        c.ipadx = 500;
-        c.ipady = 500;
-        c.gridx = 1;
-        c.gridy = 1;
-        pane.add( backPanel, c );
+//        backPanel = new BackgroundPanel();
+//        c.ipadx = 500;
+//        c.ipady = 500;
+//        c.gridx = 1;
+//        c.gridy = 1;
+//        pane.add( backPanel, c );
         
         //Resume TossSticksPanel
         teamText = new JLabel();
@@ -155,7 +166,7 @@ public class GameWindow
         setUpEndTurnButton();
         
         //SelectionPanel
-        movePieceText = new JLabel( "<html><h1>Move piece(s)</h1></html>" );
+        movePieceText = new JLabel( "Move piece(s)" );
         movePieceText.setHorizontalAlignment( 0 );
 //        c.gridwidth = 9;
 //        c.gridheight = 2;
@@ -164,28 +175,28 @@ public class GameWindow
         pane.add( movePieceText, c );
         
         //fix formatting
-        fromText = new JLabel( "<html><b><i><h2>From: </b></i></html>" );
+        fromText = new JLabel( "From: " );
         c.gridwidth = 4;
 //        c.gridheight = 2;
         c.gridx = 65;
         c.gridy = 2;
         pane.add( fromText, c );
 
-        start = new JComboBox();
+        //start = new JComboBox();
         setStartComboBox();
         c.gridwidth = 4;
         c.gridx = 70;
         c.gridy = 2;
         pane.add( start, c );
         
-        toText = new JLabel( "<html><b><i><h2>To: </b></i></html>" );
+        toText = new JLabel( "To: " );
         c.gridwidth = 4;
 //        c.gridheight = 2;
         c.gridx = 65;
         c.gridy = 3;
         pane.add( toText, c );
         
-        end = new JComboBox();
+        //end = new JComboBox();
         setEndComboBox();
         c.gridwidth = 4;
         c.gridx = 70;
@@ -226,14 +237,31 @@ public class GameWindow
 //        panel.add( image );
         
         mainFrame = new JFrame();
-        mainFrame.setSize( 1250, 1100 );
+        mainFrame.setSize( 600, 500 );
         mainFrame.setTitle( "YUNNORI (Traditional Korean Board Game)" );
         mainFrame.setLayout( new GridBagLayout() );
         mainFrame.add( pane );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
         
+        //*********************************************************************************************
+        //*********************************************************************************************
         
+        //backPanel = new BackgroundPanel();
+        board = new Board1();
+        
+        
+        
+//        image = new JLabel();
+//        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-1.png" ) ) );
+//        boardPanel.add( image );
+        
+        boardFrame = new JFrame();
+        boardFrame.setTitle( "YUNNORI BOARD" );
+        boardFrame.setSize( 800,800 );
+        boardFrame.add( board );
+        boardFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        boardFrame.setVisible( true );
         
 //        title = new JLabel();
 //        title.setText( "Yunnori Board" );
@@ -319,7 +347,7 @@ public class GameWindow
         {
             if( i == 0 )
             {
-                aTeam = new JLabel( "A   ---   " + score[ 0 ] );
+                aTeam = new JLabel( "A   ---   " + startZone[ 0 ] );
                 aTeam.setForeground(Color.green);
                 aTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
@@ -329,7 +357,7 @@ public class GameWindow
             }
             if( i == 1 )
             {
-                bTeam = new JLabel( "B   ---   " + score[ 1 ] );
+                bTeam = new JLabel( "B   ---   " + startZone[ 1 ] );
                 bTeam.setForeground(Color.blue);
                 bTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
@@ -339,7 +367,7 @@ public class GameWindow
             }
             if( i == 2 )
             {
-                cTeam = new JLabel( "C   ---   " + score[ 2 ] );
+                cTeam = new JLabel( "C   ---   " + startZone[ 2 ] );
                 cTeam.setForeground(Color.pink);
                 cTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
@@ -349,7 +377,7 @@ public class GameWindow
             }
             if( i == 3 )
             {
-                dTeam = new JLabel( "D   ---   " + score[ 3 ] );
+                dTeam = new JLabel( "D   ---   " + startZone[ 3 ] );
                 dTeam.setForeground(Color.orange);
                 dTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
@@ -388,7 +416,7 @@ public class GameWindow
                 
                 if( masterArray[ newLocation ] != null )
                 {
-                    Occupant temp = new Occupant( masterArray[ newLocation ].getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
+                    Occupant temp = masterArray[ newLocation ]; //new Occupant( masterArray[ newLocation ].getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
 
                     if( temp.getTeamName().equals( teamNames[ getCurrentTeam() ] ) )
                     {
@@ -399,7 +427,7 @@ public class GameWindow
                         for( int i = 0; i < teamNames.length; i++ )
                         {
                             if( teamNames[ i ].equals( temp.getTeamName() ))
-                                score[ i ] += temp.getNumOfPieces();
+                                startZone[ i ] += temp.getNumOfPieces();
                         }
                     }
                 }
@@ -407,11 +435,11 @@ public class GameWindow
             }
         }
         
-        if( oldLocation != 0 && masterArray[ oldLocation ] != null )
+        if( oldLocation != 0 )// && masterArray[ oldLocation ] != null )
         {
-            Occupant old = masterArray[ oldLocation ];
+            Occupant old = new Occupant( teamNames[ getCurrentTeam() ], masterArray[ oldLocation ].getNumOfPieces() );
 
-            if( oldLocation == 30 )
+            if( newLocation == 30 )
             {
                 int x = 0;
                 for( int i = 0; i < teamNames.length; i++ )
@@ -423,31 +451,47 @@ public class GameWindow
                 score[ x ] +=  old.getNumOfPieces();
                 
                 if( score[ x ] == 4 )
+                {
+                    boardFrame.setVisible( false );
+                    mainFrame.setVisible( false );
                     endGame( teamNames[ x ] );
+                }
             }
             else
             {
+                System.out.println("Pineapple");
                 if( masterArray[ newLocation ] != null )
                 {
-                    Occupant temp = new Occupant( masterArray[ newLocation ].getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
+                    System.out.println("Apple");
+                    Occupant temp = new Occupant(  masterArray[ newLocation ] );//.getTeamName(), masterArray[ newLocation ].getNumOfPieces() );
 
-                    if( temp.getTeamName().equals( old.getTeamName() ) )
+                    if( temp != null && temp.getTeamName().equals( old.getTeamName() ) )
                         old.addPieces( temp.getNumOfPieces() );
 
                     else
-                    { 
+                    {
                         for( int i = 0; i < teamNames.length; i++ )
                         {
-                            if( teamNames[ i ].equals( temp.getTeamName() ))
-                                score[ i ] += temp.getNumOfPieces();
+                            if( temp != null && teamNames[ i ].equals( temp.getTeamName() ) )
+                            {
+                                startZone[ i ] += temp.getNumOfPieces();
+                            }
+                            
                         }
                     }
                 }
-                
-                masterArray[ newLocation ] = old;
-                masterArray[ oldLocation ] = null;  
+                masterArray[ newLocation ] = new Occupant( old );
+                masterArray[ oldLocation ] = null;
             }
         }
+        for( Occupant x: masterArray )
+        {
+            if(x != null )
+                System.out.print( x.getNumOfPieces() + " " );
+            else
+                System.out.print("0 ");
+        }
+        System.out.println();
     }
 
 //---------------------------------------------------------------------------------------------------------
@@ -477,7 +521,7 @@ public class GameWindow
         else
             currentTeam++;
 
-        teamText.setText( "<html><h1>Team " + teamNames[ currentTeam ] + "</h1></html>" );
+        teamText.setText( "Team " + teamNames[ currentTeam ] );
     }
     
     public void setUpTeams( int numberOfTeams )
@@ -498,7 +542,7 @@ public class GameWindow
     
     public void setUpTossButton()
     {
-        toss = new JButton( "<html><h3>Toss</h3></html>" );
+        toss = new JButton( "Toss" );
         toss.setHorizontalAlignment( 0 );
 //        c.gridwidth = 15;
         c.gridx = 1;
@@ -540,7 +584,7 @@ public class GameWindow
                     sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Mo5.jpg" ) ) );
                     total = 5;
                 }
-                totalText.setText( "<html><h2>TOTAL: " + total + "</h2><html>" );
+                totalText.setText( "TOTAL: " + total );
             }
         }
         ActionListener listener = new ButtonListener();
@@ -560,7 +604,8 @@ public class GameWindow
             public void actionPerformed( ActionEvent event )
             {
                 total = 0;
-                totalText.setText( "<html><h2>TOTAL: " + total + "</h2></html>" );
+                sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
+                totalText.setText( "TOTAL: " + total );
                 nextTeam();
             }
         }
@@ -616,32 +661,47 @@ public class GameWindow
     
     public void setStartComboBox()
     {
-        String [] list = new String [ 31 ];
-        for( int i = 0; i < 31; i++ )
+        String [] list = new String [ 30 ];
+        for( int i = 0; i < 30; i++ )
         {
             if( i == 0 )
                 list[ i ] = " ";
-            else if( i == 1 )
-                list[ i ] = "START";
+//            else if( i == 1 )
+//                list[ i ] = "START";
             else
-                list[ i ] = i - 1 + "";
+                list[ i ] = i + "";
         }
-        start.setModel( new javax.swing.DefaultComboBoxModel( list ) );
+        //start.setModel( new javax.swing.DefaultComboBoxModel( list ) );
+        start = new JComboBox(list);
+        start.addItemListener( new ItemListener(){
+        public void itemStateChanged(ItemEvent ie)
+        {
+            num1 = Integer.parseInt( (String) start.getSelectedItem() );
+        }
+        });
+        //http://www.roseindia.net/java/example/java/swing/ComboBox.shtmlm
     }
     
     public void setEndComboBox()
     {
-        String [] list = new String [ 31 ];
-        for( int i = 0; i < 31; i++ )
+        String [] list = new String [ 30 ];
+        for( int i = 0; i < 30; i++ )
         {
             if( i == 0 )
                 list[ i ] = " ";
-            else if( i == 30 )
-                list[ i ] = "END";
+//            else if( i == 29 )
+//                list[ i ] = "30";
             else
-                list[ i ] = i + " ";
+                list[ i ] = i + "";
         }
-        end.setModel( new javax.swing.DefaultComboBoxModel( list ) );
+        //end.setModel( new javax.swing.DefaultComboBoxModel( list ) );
+        end = new JComboBox(list);
+        end.addItemListener( new ItemListener(){
+        public void itemStateChanged(ItemEvent ie)
+        {
+            num2 = Integer.parseInt( (String) end.getSelectedItem() ) - 1;
+        }
+        });
     }
     
     public void setUpMoveButton()
@@ -658,18 +718,24 @@ public class GameWindow
             public void actionPerformed( ActionEvent event )
             {
                 if( start.getSelectedIndex() != 0 && end.getSelectedIndex() != 0 )
-                    movePiece( start.getSelectedIndex() - 1, end.getSelectedIndex() );
+                {
+                    movePiece( num1 - 1, num2 + 1 );
+                    board.update( masterArray );
+                }
+                
                 for( int i = 0; i < teamNames.length; i++ )
                 {
                     if( i == 0 )
-                        aTeam.setText( "<html><font color='green'>A   ---   " + score[ 0 ] + "</font></html>" );
+                        aTeam.setText( "A   ---   " + startZone[ 0 ] );
                     if( i == 1 )
-                        bTeam.setText( "<html><font color='blue'>B   ---   " + score[ 1 ] + "</font></html>" );
+                        bTeam.setText( "B   ---   " + startZone[ 1 ] );
                     if( i == 2 )
-                        cTeam.setText( "<html><font color='pink'>C   ---   " + score[ 2 ] + "</font></html>" );
+                        cTeam.setText( "C   ---   " + startZone[ 2 ] );
                     if( i == 3 )
-                        dTeam.setText( "<html><font color='orange'>D   ---   " + score[ 3 ] + "</font></html>" );
+                        dTeam.setText( "D   ---   " + startZone[ 3 ] );
                 }
+                
+                
             }
         }
         ActionListener listener = new ButtonListener();

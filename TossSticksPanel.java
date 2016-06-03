@@ -1,3 +1,4 @@
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +22,8 @@ public class TossSticksPanel
     
     public TossSticksPanel( int numTeams )
     {
-        numberOfTeams = numTeams + 1;
-        setUpTeams( numberOfTeams );
+//        numberOfTeams = numTeams + 1;
+//        setUpTeams( numberOfTeams );
         
         teamText = new JLabel();
         teamText.setText( "Team " + teamNames[ currentTeam ] );
@@ -48,6 +49,7 @@ public class TossSticksPanel
         mainPanel = new JPanel();
         mainPanel.setLayout( new GridLayout( 5, 1 ) );
         // Borderlayout gridbaglayout
+//        mainPanel.setLayout( new GridBagLayout() );
         mainPanel.add( teamText );
         mainPanel.add( toss );
         mainPanel.add( panel1 ); //Sticks go here
@@ -72,10 +74,10 @@ public class TossSticksPanel
         return currentTeam;
     }
     
-    public String[] getTeamNames()
-    {
-        return teamNames;
-    }
+//    public String[] getTeamNames()
+//    {
+//        return teamNames;
+//    }
     
     public void nextTeam()
     {
@@ -87,21 +89,21 @@ public class TossSticksPanel
         teamText.setText( "Team " + teamNames[ currentTeam ] );
     }
     
-    public void setUpTeams( int numberOfTeams )
-    {
-        teamNames = new String[ numberOfTeams ];
-        for( int i = 0; i < numberOfTeams; i++ )
-        {
-            if( i == 0 )
-                teamNames[ i ] = "A";
-            if( i == 1 )
-                teamNames[ i ] = "B";
-            if( i == 2 )
-                teamNames[ i ] = "C";
-            if( i == 3 )
-                teamNames[ i ] = "D";
-        }
-    }
+//    public void setUpTeams( int numberOfTeams )
+//    {
+//        teamNames = new String[ numberOfTeams ];
+//        for( int i = 0; i < numberOfTeams; i++ )
+//        {
+//            if( i == 0 )
+//                teamNames[ i ] = "A";
+//            if( i == 1 )
+//                teamNames[ i ] = "B";
+//            if( i == 2 )
+//                teamNames[ i ] = "C";
+//            if( i == 3 )
+//                teamNames[ i ] = "D";
+//        }
+//    }
     
     public void setUpTossButton()
     {

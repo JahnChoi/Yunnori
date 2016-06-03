@@ -11,14 +11,14 @@ public class SetUp
     private JButton start;
     private JSeparator divide;
     private JComboBox comboBox;
-    private String [] teamNames;
+    private String[] teamNames;
     
     public SetUp()
     {
         title = new JLabel();
         title.setText( "YUNNORI" );
         title.setHorizontalAlignment( 0 );
-
+        
         divide = new JSeparator();
         
         numTeams = new JLabel();
@@ -69,6 +69,7 @@ public class SetUp
                         teamNames[ i ] = "D";
                 }
                 GameWindow G = new GameWindow( teamNames, comboBox.getSelectedIndex() );
+                frame.setVisible( false );
 //                TossSticksPanel startGame = new TossSticksPanel( comboBox.getSelectedIndex() );
 //                Board board = new Board( startGame.getTeamNames() );
             }

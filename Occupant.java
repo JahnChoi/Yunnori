@@ -4,15 +4,23 @@ public class Occupant
 {
     private int numOfPieces;
     private String teamName;
-    private int currentPath;
-    private int previousPath;
-    private ArrayList< Integer > pieceID;
+    private int lastNum;
+    private int lastNumP;
     
     public Occupant( String team, int pieces )
     {
         numOfPieces = pieces;
         teamName = team;
-        
+        lastNum = 0;
+        lastNumP = 0;
+    }
+    
+    public Occupant( Occupant x )
+    {
+        this.numOfPieces = 0;
+        this.teamName = x.teamName;
+        this.lastNum = x.lastNum;
+        this.lastNumP = x.lastNumP;
     }
     
     public int getNumOfPieces()
@@ -30,8 +38,23 @@ public class Occupant
         numOfPieces += num;
     }
     
-    public ArrayList< Integer > getPieceID()
+    public void setLastNum( int num )
     {
-        return pieceID;
+        lastNum = num;
+    }
+    
+    public int getLastNum()
+    {
+        return lastNum;
+    }
+    
+    public void setLastNumP( int num )
+    {
+        lastNumP = num;
+    }
+    
+    public int getLastNumP()
+    {
+        return lastNumP;
     }
 }

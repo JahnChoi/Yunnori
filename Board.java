@@ -1,197 +1,144 @@
-import java.awt.Graphics;
+
+import java.awt.Button;
+import java.awt.Color;
 import java.awt.GridLayout;
-import javax.swing.*;
+import javax.swing.JPanel;
 
-public class Board extends BackgroundPanel
+public class Board extends JPanel
 {
-    private JLabel image;
-    //private BackgroundPanel background;
-
+    private Button[][] buttons;
+    
     public Board()
     {
-        super();
-        setLayout( new GridLayout( 15, 15 ) );
+        setLayout( new GridLayout(11, 11));
+        buttons = new Button[11][11];
         
-        //----------------------------------------------------------------------------------------------------
-//        
-//        title = new JLabel();
-//        title.setText( "Yunnori Board" );
-//        title.setHorizontalAlignment( 0 );
-//        
-//        mainPanel = new JPanel();
-//        mainPanel.setLayout( new GridLayout( 1, 1 ) );
-//        image = new JLabel();
-//        // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
-//        image.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Board.jpg" ) ) );
-//        add( image );
-//        mainPanel.add( image );
+        for( int r = 0; r < buttons[0].length; r++ )
+        {
+            for( int c = 0; c < buttons.length; c++ )
+            {
+                buttons[r][c] = new Button();
+                add(buttons[r][c]);
+                buttons[r][c].setVisible(false);
+            }
+        }
         
-//        frame = new JFrame();
-//        frame.setSize( 1000, 800 );
-//        frame.setTitle( "Yunnori Board" );
-//        frame.setLayout( new GridLayout( 1, 1 ) );
-//        frame.add( mainPanel );
-//        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        frame.setVisible( true );
+        setUpButtons();
     }
     
-//    protected void paintComponent( Graphics g )
-//    {
-//        super.paintComponent( g );
-//        g.drawImage( image, 0, 0, null ); //need image, not JLabel
-//    }
-    
-    public void update( Occupant [] newBoard )
+    public void setUpButtons()
     {
-        for( int r = 0; r < 15; r++ )
+        buttons[0][0].setVisible(true);
+        buttons[0][0].setLabel( "16" );
+        buttons[0][2].setVisible(true);
+        buttons[0][2].setLabel( "15" );
+        buttons[0][4].setVisible(true);
+        buttons[0][4].setLabel( "14" );
+        buttons[0][6].setVisible(true);
+        buttons[0][6].setLabel( "13" );
+        buttons[0][8].setVisible(true);
+        buttons[0][8].setLabel( "12" );
+        buttons[0][10].setVisible(true);
+        buttons[0][10].setLabel( "11" );
+        buttons[2][0].setVisible(true);
+        buttons[2][0].setLabel( "17" );
+        buttons[2][2].setVisible(true);
+        buttons[2][2].setLabel( "29" );
+        buttons[2][8].setVisible(true);
+        buttons[2][8].setLabel( "26" );
+        buttons[2][10].setVisible(true);
+        buttons[2][10].setLabel( "10" );
+        buttons[4][0].setVisible(true);
+        buttons[4][0].setLabel( "18" );
+        buttons[4][3].setVisible(true);
+        buttons[4][3].setLabel( "28" );
+        buttons[4][7].setVisible(true);
+        buttons[4][7].setLabel( "27" );
+        buttons[4][10].setVisible(true);
+        buttons[4][10].setLabel( "9" );
+        buttons[5][5].setVisible(true);
+        buttons[5][5].setLabel( "23" );
+        buttons[6][0].setVisible(true);
+        buttons[6][0].setLabel( "19" );
+        buttons[6][3].setVisible(true);
+        buttons[6][3].setLabel( "24" );
+        buttons[6][7].setVisible(true);
+        buttons[6][7].setLabel( "22" );
+        buttons[6][10].setVisible(true);
+        buttons[6][10].setLabel( "8" );
+        buttons[8][0].setVisible(true);
+        buttons[8][0].setLabel( "20" );
+        buttons[8][2].setVisible(true);
+        buttons[8][2].setLabel( "25" );
+        buttons[8][8].setVisible(true);
+        buttons[8][8].setLabel( "21" );
+        buttons[8][10].setVisible(true);
+        buttons[8][10].setLabel( "7" );
+        buttons[10][0].setVisible(true);
+        buttons[10][0].setLabel( "1" );
+        buttons[10][2].setVisible(true);
+        buttons[10][2].setLabel( "2" );
+        buttons[10][4].setVisible(true);
+        buttons[10][4].setLabel( "3" );
+        buttons[10][6].setVisible(true);
+        buttons[10][6].setLabel( "4" );
+        buttons[10][8].setVisible(true);
+        buttons[10][8].setLabel( "5" );
+        buttons[10][10].setVisible(true);
+        buttons[10][10].setLabel( "6" );
+    }
+    
+    public void update( Occupant[] masterArray )
+    {
+        for( int r = 0; r < buttons.length; r++ )
         {
-            for( int c = 0; c < 15; c++ )
+            for( int c = 0; c < buttons[0].length; c++ )
             {
-                if( r != 0 && c != 0 )
-                    remove( 0 );
-                
-                if( r == 1 )
+                for( int b = 1; b < masterArray.length; b++ )
                 {
-                    if( c == 1 && newBoard[ 16 ] != null )
-                        add( insertPiece( newBoard[ 16 ] ) );
-                    if( c == 3 && newBoard[ 15 ] != null )
-                        add( insertPiece( newBoard[ 15 ] ) );
-                    if( c == 6 && newBoard[ 14 ] != null )
-                        add( insertPiece( newBoard[ 14 ] ) );
-                    if( c == 8 && newBoard[ 13 ] != null )
-                        add( insertPiece( newBoard[ 13 ] ) );
-                    if( c == 11 && newBoard[ 12 ] != null )
-                        add( insertPiece( newBoard[ 12 ] ) );
-                    if( c == 13 && newBoard[ 11 ] != null )
-                        add( insertPiece( newBoard[ 11 ] ) );
-                }
-                else if( r == 3 )
-                {
-                    if( c == 1 && newBoard[ 17 ] != null )
-                        add( insertPiece( newBoard[ 17 ] ) );
-                    if( c == 3 && newBoard[ 29 ] != null )
-                        add( insertPiece( newBoard[ 29 ] ) );
-                    if( c == 11 && newBoard[ 26 ] != null )
-                        add( insertPiece( newBoard[ 26 ] ) );
-                    if( c == 13 && newBoard[ 10 ] != null )
-                        add( insertPiece( newBoard[ 10 ] ) );                    
-                }
-                else if( r == 5 )
-                {
-                    if( c == 5 && newBoard[ 28 ] != null )
-                        add( insertPiece( newBoard[ 28 ] ) );
-                    if( c == 9 && newBoard[ 27 ] != null )
-                        add( insertPiece( newBoard[ 27 ] ) );
-                }
-                else if( r == 6 )
-                {
-                    if( c == 1 && newBoard[ 18 ] != null )
-                        add( insertPiece( newBoard[ 18 ] ) );
-                    if( c == 13 && newBoard[ 9 ] != null )
-                        add( insertPiece( newBoard[ 9 ] ) );
-                }
-                else if( r == 7 && c == 7 && newBoard[ 23 ] != null )
-                {
-                    add( insertPiece( newBoard[ 23 ] ) );
-                }
-                else if( r == 8 )
-                {
-                    if( c == 1 && newBoard[ 19 ] != null )
-                        add( insertPiece( newBoard[ 18 ] ) );
-                    if( c == 13 && newBoard[ 8 ] != null )
-                        add( insertPiece( newBoard[ 8 ] ) );
-                }
-                else if( r == 9 )
-                {
-                    if( c == 5 && newBoard[ 24 ] != null )
-                        add( insertPiece( newBoard[ 24 ] ) );
-                    if( c == 9 && newBoard[ 22 ] != null )
-                        add( insertPiece( newBoard[ 22 ] ) );
-                }
-                else if( r == 11 )
-                {
-                    if( c == 1 && newBoard[ 20 ] != null )
-                        add( insertPiece( newBoard[ 20 ] ) );
-                    if( c == 3 && newBoard[ 25 ] != null )
-                        add( insertPiece( newBoard[ 25 ] ) );
-                    if( c == 11 && newBoard[ 21 ] != null )
-                        add( insertPiece( newBoard[ 21 ] ) );
-                    if( c == 13 && newBoard[ 7 ] != null )
-                        add( insertPiece( newBoard[ 7 ] ) );                    
-                }
-                else if( r == 13 )
-                {
-                    if( c == 1 && newBoard[ 1 ] != null )
-                        add( insertPiece( newBoard[ 1 ] ) );
-                    if( c == 3 && newBoard[ 2 ] != null )
-                        add( insertPiece( newBoard[ 2 ] ) );
-                    if( c == 6 && newBoard[ 3 ] != null )
-                        add( insertPiece( newBoard[ 3 ] ) );
-                    if( c == 8 && newBoard[ 4 ] != null )
-                        add( insertPiece( newBoard[ 4 ] ) );
-                    if( c == 11 && newBoard[ 5 ] != null )
-                        add( insertPiece( newBoard[ 5 ] ) );
-                    if( c == 13 && newBoard[ 6 ] != null )
-                        add( insertPiece( newBoard[ 6 ] ) );
-                }
-                else
-                    add( new JLabel() ); 
+                    if( masterArray[b] != null && buttons[r][c].isVisible() )
+                    {
+                        int num = 0;
+                        //( buttons[r][c].getLabel().length() != 1 && buttons[r][c].getLabel().length() != 2 && ( buttons[r][c].getLabel().charAt( 1 ) ) == ' ' || buttons[r][c].getLabel().charAt( 2 ) == ' ' )
+                        if( buttons[r][c].getLabel().indexOf( "(" ) != -1 )
+                        {
+                            int x = buttons[r][c].getLabel().indexOf( " " );
+                            num += Integer.parseInt( buttons[r][c].getLabel().substring( 0, x ) );
+                        }
+                        else
+                            num = Integer.parseInt( buttons[r][c].getLabel() );
+                        if( num == b + 1 && masterArray[b].getLastNum() != num && masterArray[b].getLastNumP() != masterArray[b].getNumOfPieces() )
+                        {
+                            if( masterArray[b].getTeamName().equals( "A" ) )
+                            {
+                                buttons[r][c].setBackground( Color.green );
+                                buttons[r][c].setLabel( num + " (" + masterArray[b].getNumOfPieces() + ")" );
+                            }
+                            else if( masterArray[b].getTeamName().equals( "B" ) )
+                            {
+                                buttons[r][c].setBackground( Color.blue );
+                                buttons[r][c].setLabel( num + " (" + masterArray[b].getNumOfPieces() + ")" );
+                            }
+                            else if( masterArray[b].getTeamName().equals( "C" ) )
+                            {
+                                buttons[r][c].setBackground( Color.pink );
+                                buttons[r][c].setLabel( num + " (" + masterArray[b].getNumOfPieces() + ")" );
+                            }
+                            else if( masterArray[b].getTeamName().equals( "D" ) )
+                            {
+                                buttons[r][c].setBackground( Color.yellow );
+                                buttons[r][c].setLabel( num + " (" + masterArray[b].getNumOfPieces() + ")" );
+                            }
+                            else
+                            {
+                                buttons[r][c].setLabel( buttons[r][c].getLabel() + "\b\b\b\b" );
+                                buttons[r][c].setBackground( buttons[10][0].getBackground() );
+                            }
+                            masterArray[b].setLastNum( num );
+                        }
+                    }
+                }        
             }
         }
     }
-    
-    public JLabel insertPiece( Occupant x )
-    {
-        JLabel piece = new JLabel();
-        
-        if( x.getTeamName().equals( "A" ) )
-        {
-            if( x.getNumOfPieces() == 1 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-1.png" ) ) );             
-            else if( x.getNumOfPieces() == 2 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-2.png" ) ) );              
-            else if( x.getNumOfPieces() == 3 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-3.png" ) ) );             
-            else
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 1-4.png" ) ) );  
-        }
-        else if( x.getTeamName().equals( "B" ) )
-        {
-            if( x.getNumOfPieces() == 1 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-1.png" ) ) );             
-            else if( x.getNumOfPieces() == 2 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-2.png" ) ) );              
-            else if( x.getNumOfPieces() == 3 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-3.png" ) ) );             
-            else
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 2-4.png" ) ) ); 
-        }
-        else if( x.getTeamName().equals( "C" ) )
-        {
-            if( x.getNumOfPieces() == 1 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-1.png" ) ) );             
-            else if( x.getNumOfPieces() == 2 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-2.png" ) ) );              
-            else if( x.getNumOfPieces() == 3 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-3.png" ) ) );             
-            else
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 3-4.png" ) ) ); 
-        }
-        else
-        {
-            if( x.getNumOfPieces() == 1 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-1.png" ) ) );             
-            else if( x.getNumOfPieces() == 2 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-2.png" ) ) );              
-            else if( x.getNumOfPieces() == 3 )
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-3.png" ) ) );             
-            else
-                piece.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Piece 4-4.png" ) ) ); 
-        }
-        
-        return piece;
-    }
-
-    
-    
 }
