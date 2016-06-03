@@ -1,6 +1,8 @@
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -56,6 +58,8 @@ public class GameWindow
     private JLabel displayTotal;
     private int total;
     
+    private BackgroundPanel backPanel;
+    
     public GameWindow( String[] teamList, int numOfTeams )
     {
         // BOARD       
@@ -63,7 +67,7 @@ public class GameWindow
         teamNames = teamList;
         
         startZone = new int[ teamList.length ];
-        score = new int[ teamList.length ];
+        score = new int[ teamList.length + 1 ];
         setUpScoreAndStartZone( teamList.length );
         
         //START ZONE TABLE
@@ -74,6 +78,7 @@ public class GameWindow
         //https://docs.oracle.com/javase/tutorial/uiswing/layout/gridbag.html
         
         pane = new JPanel( new GridBagLayout() );
+        pane.setLayout( new GridBagLayout() );
         c = new GridBagConstraints();
         //c.fill = GridBagConstraints.HORIZONTAL;
 
@@ -89,47 +94,60 @@ public class GameWindow
         startZoneLabel.setHorizontalAlignment( 0 );
 //        c.gridwidth = 11;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         pane.add( startZoneLabel, c );
         
         teamAndPieceLabel = new JLabel( "Team  ---  # Piece(s)" );
         teamAndPieceLabel.setHorizontalAlignment( 0 );
 //        c.gridwidth = 11;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 3;
         pane.add( teamAndPieceLabel, c );
         
-        //sets up all teams' data and places on pane
-        setUpStartChart( numOfTeams );
+        //        // TOSS STICKS PANEL
+        numberOfTeams = numOfTeams + 1;
+        setUpTeams( numberOfTeams );
         
-        //Board goes here
-//        c.gridx = 1;
-//        c.gridy = 0;
-//        pane.add( board );
+        //sets up all teams' data and places on pane
+        setUpStartChart( numberOfTeams );
+        
+        //BOARD
+//        image1 = new JLabel();
+//        image1.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yunnori Board.png" ) ) );
+//        c.gridx = 0;
+//        c.gridy = 1;
+//        pane.add( image1, c );
+        
+        backPanel = new BackgroundPanel();
+        c.ipadx = 500;
+        c.ipady = 500;
+        c.gridx = 1;
+        c.gridy = 1;
+        pane.add( backPanel, c );
         
         //Resume TossSticksPanel
         teamText = new JLabel();
-        teamText.setText( "<html><h1>Team " + teamNames[ currentTeam ] + "</h1></html>" );
+        teamText.setText( "Team " + teamNames[ currentTeam ] );
         teamText.setHorizontalAlignment( 0 );
 //        c.gridwidth = ;
-        c.gridx = 30;
-        c.gridy = 0;
+        c.gridx = 1;
+        c.gridy = 2;
         pane.add( teamText, c );
         
         sticksImage = new JLabel();
         // http://stackoverflow.com/questions/20886415/displaying-image-in-jpanel-from-netbeans-gui-builder
         sticksImage.setIcon( new javax.swing.ImageIcon( getClass().getResource( "/resources/Yut Sticks.png" ) ) );
         sticksImage.setHorizontalAlignment( 0 );
-        c.gridx = 30;
-        c.gridy = 1;
+        c.gridx = 1;
+        c.gridy = 3;
         pane.add( sticksImage, c );
         
         totalText = new JLabel();
-        totalText.setText( "<html><h2>TOTAL: " + total +"</h2></html>" );
+        totalText.setText( "TOTAL: " + total );
         totalText.setHorizontalAlignment( 0 );
 //        c.gridwidth = 16;
-        c.gridx = 30;
-        c.gridy = 2;
+        c.gridx = 1;
+        c.gridy = 4;
         pane.add( totalText, c );
         
         //sets up button and places on pane
@@ -150,39 +168,39 @@ public class GameWindow
         c.gridwidth = 4;
 //        c.gridheight = 2;
         c.gridx = 65;
-        c.gridy = 1;
+        c.gridy = 2;
         pane.add( fromText, c );
 
         start = new JComboBox();
         setStartComboBox();
         c.gridwidth = 4;
         c.gridx = 70;
-        c.gridy = 1;
+        c.gridy = 2;
         pane.add( start, c );
         
         toText = new JLabel( "<html><b><i><h2>To: </b></i></html>" );
         c.gridwidth = 4;
 //        c.gridheight = 2;
         c.gridx = 65;
-        c.gridy = 2;
+        c.gridy = 3;
         pane.add( toText, c );
         
         end = new JComboBox();
         setEndComboBox();
         c.gridwidth = 4;
         c.gridx = 70;
-        c.gridy = 2;
+        c.gridy = 3;
         pane.add( end, c );
         
-        ifStartText = new JLabel( "<html><i><b>If moving from START,</i></b></html>" );
+        ifStartText = new JLabel( "If moving from START," );
         ifStartText.setHorizontalAlignment( 0 );
 //        c.gridwidth = 9;
 //        c.gridheight = 2;
         c.gridx = 65;
-        c.gridy = 3;
+        c.gridy = 4;
         pane.add( ifStartText, c );
         
-        selectTeamText = new JLabel( "<html><i><b>select team: </i></b></html>" );
+        selectTeamText = new JLabel( "select team: " );
         selectTeamText.setHorizontalAlignment( 0 );
 //        c.gridwidth = 9;
 //        c.gridheight = 2;
@@ -208,12 +226,14 @@ public class GameWindow
 //        panel.add( image );
         
         mainFrame = new JFrame();
-        mainFrame.setSize( 1250, 900 );
+        mainFrame.setSize( 1250, 1100 );
         mainFrame.setTitle( "YUNNORI (Traditional Korean Board Game)" );
         mainFrame.setLayout( new GridBagLayout() );
         mainFrame.add( pane );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
+        
+        
         
 //        title = new JLabel();
 //        title.setText( "Yunnori Board" );
@@ -234,9 +254,7 @@ public class GameWindow
 //        boardFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 //        boardFrame.setVisible( true );
 //        
-//        // TOSS STICKS PANEL
-        numberOfTeams = numOfTeams + 1;
-        setUpTeams( numberOfTeams );
+
 //        
 //        teamText = new JLabel();
 //        teamText.setText( "Team " + teamNames[ currentTeam ] );
@@ -301,39 +319,43 @@ public class GameWindow
         {
             if( i == 0 )
             {
-                aTeam = new JLabel( "<html><font color='green'>A   ---   " + score[ 0 ] + "</font></html>" );
+                aTeam = new JLabel( "A   ---   " + score[ 0 ] );
+                aTeam.setForeground(Color.green);
                 aTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 3;
-                pane.add( aTeam );
+                c.gridy = 4;
+                pane.add( aTeam, c );
             }
             if( i == 1 )
             {
-                bTeam = new JLabel( "<html><font color='blue'>B   ---   " + score[ 1 ] + "</font></html>" );
+                bTeam = new JLabel( "B   ---   " + score[ 1 ] );
+                bTeam.setForeground(Color.blue);
                 bTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 4;
-                pane.add( bTeam );
+                c.gridy = 5;
+                pane.add( bTeam, c );
             }
             if( i == 2 )
             {
-                cTeam = new JLabel( "<html><font color='pink'>C   ---   " + score[ 2 ] + "</font></html>" );
+                cTeam = new JLabel( "C   ---   " + score[ 2 ] );
+                cTeam.setForeground(Color.pink);
                 cTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 5;
-                pane.add( cTeam );
+                c.gridy = 6;
+                pane.add( cTeam, c );
             }
             if( i == 3 )
             {
-                dTeam = new JLabel( "<html><font color='orange'>D   ---   " + score[ 3 ] + "</font></html>" );
+                dTeam = new JLabel( "D   ---   " + score[ 3 ] );
+                dTeam.setForeground(Color.orange);
                 dTeam.setHorizontalAlignment( 0 );
                 c.gridwidth = 11;
                 c.gridx = 0;
-                c.gridy = 6;
-                pane.add( dTeam );
+                c.gridy = 7;
+                pane.add( dTeam, c );
             }                       
         }
     }
@@ -479,8 +501,8 @@ public class GameWindow
         toss = new JButton( "<html><h3>Toss</h3></html>" );
         toss.setHorizontalAlignment( 0 );
 //        c.gridwidth = 15;
-        c.gridx = 30;
-        c.gridy = 15;
+        c.gridx = 1;
+        c.gridy = 5;
         pane.add( toss, c );
         class ButtonListener implements ActionListener
         {
@@ -530,8 +552,8 @@ public class GameWindow
         endTurn = new JButton( "End Turn" );
         endTurn.setHorizontalAlignment( 0 );
 //        c.gridwidth = 15;
-        c.gridx = 30;
-        c.gridy = 18;
+        c.gridx = 1;
+        c.gridy = 6;
         pane.add( endTurn, c );
         class ButtonListener implements ActionListener
         {
